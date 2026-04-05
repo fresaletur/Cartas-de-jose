@@ -12,7 +12,8 @@ header{background:#111827;border-bottom:1px solid #1f2937;padding:12px 16px;disp
 header h1{font-size:1.1rem;font-weight:700;color:#60a5fa;display:flex;align-items:center;gap:6px}
 .header-right{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .fecha{color:#6b7280;font-size:0.75rem}
-.refresh-btn{background:#1f2937;border:1px solid #374151;color:#9ca3af;border-radius:6px;padding:5px 12px;font-size:0.78rem;cursor:pointer;transition:.15s}
+.countdown{color:#9ca3af;font-size:0.72rem}
+.refresh-btn{background:#1f2937;border:1px solid #374151;color:#9ca3af;border-radius:6px;padding:5px 12px;font-size:0.78rem;cursor:pointer;transition:.15s;display:flex;align-items:center;gap:5px}
 .refresh-btn:hover{border-color:#60a5fa;color:#60a5fa}
 .refresh-btn:disabled{opacity:.5;cursor:not-allowed}
 .status{font-size:0.72rem;display:flex;align-items:center;gap:5px}
@@ -21,6 +22,10 @@ header h1{font-size:1.1rem;font-weight:700;color:#60a5fa;display:flex;align-item
 .status-dot.ok{background:#22c55e}
 .status-dot.error{background:#ef4444}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+.interval-wrap{display:flex;align-items:center;gap:6px}
+.interval-wrap label{color:#6b7280;font-size:0.72rem}
+.interval-select{background:#1f2937;color:#e2e8f0;border:1px solid #374151;border-radius:6px;padding:4px 8px;font-size:0.75rem;outline:none}
 
 .stats{display:flex;flex-wrap:wrap;gap:0;background:#111827;border-bottom:1px solid #1f2937}
 .stat-item{flex:1;min-width:100px;padding:10px 16px;border-right:1px solid #1f2937;text-align:center}
@@ -36,51 +41,71 @@ header h1{font-size:1.1rem;font-weight:700;color:#60a5fa;display:flex;align-item
 .dot{width:10px;height:10px;border-radius:3px;display:inline-block}
 .dot-green{background:#22c55e}.dot-red{background:#ef4444}
 
+.error-box{display:none;background:#1f1008;border:1px solid #92400e;border-radius:8px;padding:10px 14px;color:#fbbf24;margin:10px 16px;font-size:0.78rem}
+
 .table-wrap{overflow-x:auto;width:100%}
-table{width:100%;border-collapse:collapse;min-width:960px}
+table{width:100%;border-collapse:collapse;min-width:1000px}
 thead th{background:#111827;color:#9ca3af;font-size:0.68rem;text-transform:uppercase;letter-spacing:.4px;padding:9px 10px;text-align:right;border-bottom:2px solid #1f2937;cursor:pointer;white-space:nowrap;user-select:none}
 thead th:nth-child(-n+5){text-align:left}
+thead th.th-mm{background:#0d1f18;color:#34d399}
 thead th:hover{color:#60a5fa}
 thead th.sorted{color:#60a5fa}
 
 tbody tr{border-bottom:1px solid #1a1a2e;transition:background .1s;cursor:pointer}
+tbody tr:nth-child(even){background:#0f1117}
 tbody tr:hover{background:#1f2937}
 tbody tr.active{background:#1e293b}
-td{padding:8px 10px;font-size:0.82rem;text-align:right;white-space:nowrap;transition:background .4s}
+td{padding:8px 10px;font-size:0.82rem;text-align:right;white-space:nowrap}
 td:nth-child(-n+5){text-align:left}
-td.flash{background:#1e3a1e !important}
 
 .ticker-cell{font-weight:700;color:#60a5fa;font-size:0.9rem}
 .empresa-cell{color:#e2e8f0;max-width:150px;overflow:hidden;text-overflow:ellipsis}
-.mkt-badge{font-size:0.68rem;background:#1f2937;border:1px solid #374151;border-radius:4px;padding:1px 6px;color:#9ca3af}
-.div-badge{font-size:0.68rem;background:#1e3a5f;border-radius:4px;padding:1px 6px;color:#93c5fd}
+.empresa-sub{font-size:0.65rem;color:#6b7280;margin-top:1px}
+.mkt-badge{font-size:0.68rem;border-radius:4px;padding:1px 6px;font-weight:700;letter-spacing:.3px}
+.m-NYSE{background:#dbeafe;color:#1e40af}.m-NASDAQ{background:#ede9fe;color:#5b21b6}
+.m-ETR{background:#fef3c7;color:#92400e}.m-EPA{background:#fee2e2;color:#991b1b}
+.m-LON{background:#f0fdf4;color:#166534}.m-SWX{background:#fdf4ff;color:#6b21a8}
+.m-BME{background:#fff7ed;color:#9a3412}
+.div-badge{font-size:0.68rem;background:#1e3a5f;border-radius:4px;padding:1px 6px;color:#93c5fd;font-weight:700}
 .sector-badge{font-size:0.68rem;border-radius:4px;padding:1px 6px;font-weight:600}
 .sector-Defensivo{background:rgba(34,197,94,.15);color:#22c55e}
 .sector-Cíclico{background:rgba(245,158,11,.15);color:#f59e0b}
 .sector-Sensitivo{background:rgba(96,165,250,.15);color:#60a5fa}
 
 .var-pos{color:#22c55e;font-weight:600}.var-neg{color:#ef4444;font-weight:600}
-.rpd-high{color:#22c55e;font-weight:700}.rpd-mid{color:#f59e0b;font-weight:600}.rpd-low{color:#9ca3af}
-.per-low{color:#22c55e}.per-mid{color:#f59e0b}.per-high{color:#ef4444}
+.rpd-high{color:#22c55e;font-weight:700}.rpd-mid{color:#60a5fa;font-weight:600}.rpd-low{color:#9ca3af}
+.per-low{color:#22c55e;font-weight:600}.per-mid{color:#f59e0b}.per-high{color:#ef4444;font-weight:600}
 .mm-bajo{color:#22c55e;font-weight:600}.mm-sobre{color:#ef4444;font-weight:600}.mm-neutral{color:#9ca3af}
+.td-mm{background:#0d1f18 !important}
 
-.detail-row td{padding:0;background:#0f172a;border-bottom:2px solid #1f2937}
-.detail-inner{padding:16px;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
-.detail-section{background:#1a2035;border:1px solid #1f2937;border-radius:8px;padding:12px}
-.detail-section h3{font-size:0.72rem;text-transform:uppercase;letter-spacing:.5px;color:#6b7280;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid #1f2937}
-.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
-.dl{font-size:0.65rem;color:#6b7280;margin-bottom:1px}
-.dv{font-size:0.9rem;font-weight:600;color:#e2e8f0}
-.progress-wrap{margin-top:8px}
-.progress-label{display:flex;justify-content:space-between;font-size:0.65rem;color:#6b7280;margin-bottom:3px}
-.progress-bar{height:4px;background:#374151;border-radius:99px;position:relative}
-.progress-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,#3b82f6,#06b6d4)}
-.progress-dot{position:absolute;top:50%;transform:translate(-50%,-50%);width:8px;height:8px;border-radius:50%;background:#fff;border:2px solid #60a5fa}
+.spin{display:inline-block;animation:spin2 1s linear infinite}
+@keyframes spin2{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+
+/* DETALLE */
+#detalle{display:none;background:#111827;border-radius:12px;margin:12px 16px;padding:20px;border:1px solid #1f2937}
+.detalle-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px}
+.detalle-titulo{font-size:1.1rem;font-weight:700;color:#e2e8f0}
+.detalle-sub{font-size:0.75rem;color:#6b7280;margin-top:3px}
+.btn-cerrar{background:none;border:1px solid #374151;border-radius:6px;padding:5px 12px;cursor:pointer;color:#9ca3af;font-size:0.78rem}
+.detalle-section{font-size:0.7rem;font-weight:700;color:#34d399;margin:14px 0 8px;text-transform:uppercase;letter-spacing:1px;border-bottom:1px solid #1f2937;padding-bottom:4px}
+.detalle-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px}
+.detalle-card{background:#1f2937;border-radius:8px;padding:10px 12px;border:1px solid #374151}
+.detalle-label{font-size:0.65rem;color:#6b7280;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+.detalle-val{font-size:0.88rem;font-weight:700;color:#e2e8f0}
+.rango-wrap{margin-top:14px}
+.rango-label{font-size:0.68rem;color:#6b7280;font-weight:600;text-transform:uppercase;margin-bottom:6px}
+.rango-bar{background:#374151;border-radius:999px;height:6px;position:relative;overflow:hidden}
+.rango-fill{position:absolute;left:0;top:0;height:100%;border-radius:999px;background:linear-gradient(90deg,#ef4444,#f59e0b,#22c55e);transition:width .5s}
+.rango-nums{display:flex;justify-content:space-between;margin-top:4px;font-size:0.68rem;color:#6b7280}
+.mm-bar-row{display:flex;align-items:center;gap:8px;margin:8px 0}
+.mm-bar-label{font-size:0.7rem;color:#9ca3af;width:60px;flex-shrink:0}
+.mm-bar-bg{flex:1;background:#374151;border-radius:999px;height:5px;position:relative}
+.mm-bar-line{position:absolute;top:-4px;width:2px;height:13px;border-radius:2px;background:#34d399}
+.mm-bar-precio{position:absolute;top:-5px;width:12px;height:12px;border-radius:50%;background:#ef4444;border:2px solid #0d0d0d;margin-left:-6px}
+.mm-pct-val{font-size:0.78rem;font-weight:700;width:65px;text-align:right;flex-shrink:0}
+
 .no-results{text-align:center;padding:40px;color:#6b7280}
-
-/* live badge */
-.live-tag{font-size:0.65rem;background:rgba(34,197,94,.15);color:#22c55e;border:1px solid rgba(34,197,94,.3);border-radius:4px;padding:1px 7px;font-weight:600}
-.static-tag{font-size:0.65rem;background:rgba(107,114,128,.1);color:#6b7280;border:1px solid #374151;border-radius:4px;padding:1px 7px}
+footer{text-align:center;color:#374151;font-size:0.7rem;padding:16px}
 </style>
 </head>
 <body>
@@ -88,10 +113,21 @@ td.flash{background:#1e3a1e !important}
 <header>
   <h1>📊 Cartas del Dividendo</h1>
   <div class="header-right">
+    <div class="interval-wrap">
+      <label>Actualizar cada</label>
+      <select class="interval-select" id="intervalSelect" onchange="changeInterval()">
+        <option value="60">1 minuto</option>
+        <option value="120">2 minutos</option>
+        <option value="300" selected>5 minutos</option>
+        <option value="600">10 minutos</option>
+        <option value="1800">30 minutos</option>
+      </select>
+    </div>
     <div class="status">
       <div class="status-dot" id="statusDot"></div>
       <span id="statusText" class="fecha">Sin datos</span>
     </div>
+    <div class="countdown" id="countdown"></div>
     <button class="refresh-btn" id="refreshBtn" onclick="manualRefresh()">🔄 Actualizar</button>
   </div>
 </header>
@@ -105,336 +141,439 @@ td.flash{background:#1e3a1e !important}
 </div>
 
 <div class="controls">
-  <input type="text" id="search" placeholder="🔍 Buscar ticker o empresa..." style="width:200px">
-  <select id="fSector"><option value="">Todos los sectores</option><option>Defensivo</option><option>Cíclico</option><option>Sensitivo</option></select>
-  <select id="fMkt"><option value="">Todos los mercados</option><option>ETR</option><option>EPA</option><option>BME</option><option>LON</option><option>NYSE</option><option>NASDAQ</option><option>SWX</option></select>
-  <select id="fCur"><option value="">Todas las divisas</option><option>EUR</option><option>USD</option><option>GBP</option><option>CHF</option></select>
+  <input type="text" id="search" placeholder="🔍 Buscar ticker o empresa..." style="width:200px" oninput="renderTable()">
+  <select id="fSector" onchange="renderTable()"><option value="">Todos los sectores</option><option>Defensivo</option><option>Cíclico</option><option>Sensitivo</option></select>
+  <select id="fMkt" onchange="renderTable()"><option value="">Todos los mercados</option><option>ETR</option><option>EPA</option><option>BME</option><option>LON</option><option>NYSE</option><option>NASDAQ</option><option>SWX</option></select>
+  <select id="fCur" onchange="renderTable()"><option value="">Todas las divisas</option><option>EUR</option><option>USD</option><option>GBP</option><option>CHF</option></select>
 </div>
 
 <div class="hint">
   <span>MM1000:</span>
   <span class="dot dot-green"></span><span>Verde = precio bajo MM (descuento)</span>
   <span class="dot dot-red" style="margin-left:8px"></span><span>Rojo = precio sobre MM</span>
-  <span style="margin-left:12px">💡 Toca fila para ver detalle</span>
-  <span style="margin-left:auto" id="liveTag"></span>
+  <span style="margin-left:auto;color:#6b7280;font-size:0.7rem">💡 Toca fila para ver detalle</span>
 </div>
 
+<div class="error-box" id="errorBox"></div>
+
 <div class="table-wrap">
-<table id="mainTable">
+<table>
 <thead>
   <tr>
-    <th data-sort="ticker">Ticker ↕</th>
-    <th data-sort="name">Empresa ↕</th>
-    <th>Mercado</th>
-    <th>Div.</th>
-    <th>Sector</th>
-    <th data-sort="price">Precio ↕</th>
-    <th data-sort="var">Var.% ↕</th>
-    <th data-sort="per">PER ↕</th>
-    <th data-sort="rpd">RPD% ↕</th>
-    <th data-sort="mm1000">MM1000 ↕</th>
-    <th data-sort="pct_mm">%MM1000 ↕</th>
-    <th data-sort="max52">Máx52 ↕</th>
-    <th data-sort="min52">Mín52 ↕</th>
-    <th data-sort="perf">PERfut ↕</th>
-    <th data-sort="dpa">DPA ↕</th>
+    <th onclick="sortBy('ticker')">Ticker</th>
+    <th onclick="sortBy('nombre')">Empresa</th>
+    <th onclick="sortBy('mercado')">Mercado</th>
+    <th onclick="sortBy('divisa')">Div.</th>
+    <th onclick="sortBy('sector')">Sector</th>
+    <th onclick="sortBy('precio')" style="text-align:right">Precio</th>
+    <th onclick="sortBy('variacionpct')" style="text-align:right">Var.%</th>
+    <th onclick="sortBy('per')" style="text-align:right">PER</th>
+    <th onclick="sortBy('rpdpct')" style="text-align:right">RPD%</th>
+    <th onclick="sortBy('mm200')" class="th-mm" style="text-align:right">MM200</th>
+    <th onclick="sortBy('descmm200')" class="th-mm" style="text-align:right">%MM200</th>
+    <th onclick="sortBy('mm1000')" class="th-mm" style="text-align:right">MM1000</th>
+    <th onclick="sortBy('descmm1000')" class="th-mm" style="text-align:right">%MM1000</th>
+    <th onclick="sortBy('max52')" style="text-align:right">Máx52</th>
+    <th onclick="sortBy('min52')" style="text-align:right">Mín52</th>
+    <th onclick="sortBy('perfuturo')" style="text-align:right">PERfut</th>
+    <th onclick="sortBy('dpa')" style="text-align:right">DPA</th>
   </tr>
 </thead>
 <tbody id="tbody"></tbody>
 </table>
 </div>
 
+<div id="detalle">
+  <div class="detalle-header">
+    <div><div class="detalle-titulo" id="d-titulo">—</div><div class="detalle-sub" id="d-sub">—</div></div>
+    <button class="btn-cerrar" onclick="cerrarDetalle()">✕ Cerrar</button>
+  </div>
+  <div class="detalle-section">Precio y mercado</div>
+  <div class="detalle-grid" id="d-grid-precio"></div>
+  <div class="detalle-section">Medias Móviles</div>
+  <div class="detalle-grid" id="d-grid-mm"></div>
+  <div id="d-mm-bars"></div>
+  <div class="detalle-section">Valoración y dividendo</div>
+  <div class="detalle-grid" id="d-grid-val"></div>
+  <div class="rango-wrap" id="d-rango" style="display:none">
+    <div class="rango-label">Posición en rango 52 semanas</div>
+    <div class="rango-bar"><div class="rango-fill" id="d-rango-fill"></div></div>
+    <div class="rango-nums"><span id="d-min52"></span><span id="d-max52"></span></div>
+  </div>
+</div>
+
+<footer>Precios vía Financial Modeling Prep · MM aproximadas · No constituyen asesoramiento financiero</footer>
+
 <script>
-// ─── DATOS BASE (MM1000 estático, resto se actualiza via API) ──────────────
-const stocks = [
-  {ticker:"ALV",  yticker:"ALV.DE",  name:"Allianz SE",              mkt:"ETR",    cur:"EUR", sector:"Cíclico",   sub:"Servicios financieros",  per:13.29, var:0.05,  price:367.90, med52:341.30, max52:396.00, min52:286.60, mm1000:270.39, pct_mm:36.06, cap:"139.614M", bpa:27.67, dpa:17.10, rpd:4.65, rpd5:4.80,  perf:11.02},
-  {ticker:"BN",   yticker:"BN.PA",   name:"Danone",                  mkt:"EPA",    cur:"EUR", sector:"Defensivo", sub:"Consumo defensivo",      per:24.60, var:0.26,  price:69.24,  med52:71.83,  max52:80.14,  min52:63.52,  mm1000:61.73,  pct_mm:12.17, cap:"54.672M",  bpa:2.81,  dpa:2.25,  rpd:3.25, rpd5:3.38,  perf:16.34},
-  {ticker:"ENG",  yticker:"ENG.MC",  name:"Enagas SA",               mkt:"BME",    cur:"EUR", sector:"Defensivo", sub:"Utilidades",             per:13.31, var:1.68,  price:17.20,  med52:14.80,  max52:17.29,  min52:12.30,  mm1000:15.11,  pct_mm:13.86, cap:"4.505M",   bpa:1.29,  dpa:1.00,  rpd:5.81, rpd5:9.84,  perf:17.16},
-  {ticker:"MC",   yticker:"MC.PA",   name:"LVMH Moet Hennessy",      mkt:"EPA",    cur:"EUR", sector:"Cíclico",   sub:"Consumo cíclico",        per:21.56, var:-0.01, price:471.05, med52:545.63, max52:654.70, min52:436.55, mm1000:670.16, pct_mm:-29.71,cap:"271.664M", bpa:21.84, dpa:13.00, rpd:2.76, rpd5:1.71,  perf:17.70},
-  {ticker:"OR",   yticker:"OR.PA",   name:"L\'Oreal SA",             mkt:"EPA",    cur:"EUR", sector:"Defensivo", sub:"Consumo defensivo",      per:31.30, var:0.29,  price:358.20, med52:367.50, max52:408.35, min52:326.65, mm1000:383.02, pct_mm:-6.48, cap:"189.492M", bpa:11.44, dpa:7.20,  rpd:2.01, rpd5:1.49,  perf:24.37},
-  {ticker:"BATS", yticker:"BATS.L",  name:"British American Tobacco", mkt:"LON",   cur:"GBP", sector:"Defensivo", sub:"Consumo defensivo",      per:12.52, var:2.46,  price:44.19,  med52:38.96,  max52:48.77,  min52:29.16,  mm1000:31.33,  pct_mm:41.05, cap:"124.735M", bpa:3.53,  dpa:2.45,  rpd:5.56, rpd5:7.57,  perf:11.45},
-  {ticker:"DGE",  yticker:"DGE.L",   name:"Diageo plc",              mkt:"LON",    cur:"GBP", sector:"Defensivo", sub:"Consumo defensivo",      per:17.05, var:0.04,  price:13.96,  med52:17.83,  max52:22.15,  min52:13.50,  mm1000:27.37,  pct_mm:-49.01,cap:"40.347M",  bpa:0.82,  dpa:0.63,  rpd:4.51, rpd5:2.87,  perf:11.47},
-  {ticker:"RKT",  yticker:"RKT.L",   name:"Reckitt Benckiser",       mkt:"LON",    cur:"GBP", sector:"Defensivo", sub:"Consumo defensivo",      per:10.61, var:0.08,  price:51.88,  med52:55.47,  max52:65.14,  min52:45.79,  mm1000:56.93,  pct_mm:-8.87, cap:"44.417M",  bpa:4.89,  dpa:2.16,  rpd:4.16, rpd5:3.40,  perf:14.04},
-  {ticker:"ULVR", yticker:"ULVR.L",  name:"Unilever plc",            mkt:"LON",    cur:"GBP", sector:"Defensivo", sub:"Consumo defensivo",      per:18.51, var:-0.35, price:41.73,  med52:48.38,  max52:55.42,  min52:41.35,  mm1000:46.02,  pct_mm:-9.34, cap:"119.643M", bpa:2.25,  dpa:1.72,  rpd:4.13, rpd5:3.56,  perf:14.12},
-  {ticker:"AAPL", yticker:"AAPL",    name:"Apple Inc",               mkt:"NASDAQ", cur:"USD", sector:"Sensitivo", sub:"Tecnología",             per:32.38, var:0.11,  price:255.92, med52:228.91, max52:288.61, min52:169.21, mm1000:199.31, pct_mm:28.40, cap:"3.757.197M",bpa:7.90, dpa:1.04,  rpd:0.41, rpd5:0.51,  perf:27.47},
-  {ticker:"AMT",  yticker:"AMT",     name:"American Tower",          mkt:"NYSE",   cur:"USD", sector:"Sensitivo", sub:"Industrial",             per:32.19, var:1.58,  price:173.73, med52:199.71, max52:234.33, min52:165.08, mm1000:203.62, pct_mm:-14.68,cap:"80.973M",  bpa:5.40,  dpa:6.89,  rpd:3.97, rpd5:2.86,  perf:25.06},
-  {ticker:"BLK",  yticker:"BLK",     name:"Blackrock",               mkt:"NYSE",   cur:"USD", sector:"Defensivo", sub:"Servicios financieros",  per:28.01, var:0.96,  price:966.56, med52:996.84, max52:1219.94,min52:773.74, mm1000:845.76, pct_mm:14.28, cap:"150.340M", bpa:34.51, dpa:22.92, rpd:2.37, rpd5:2.33,  perf:15.67},
-  {ticker:"BMY",  yticker:"BMY",     name:"Bristol-Myers Squibb",    mkt:"NYSE",   cur:"USD", sector:"Defensivo", sub:"Salud",                  per:17.23, var:-2.45, price:59.60,  med52:52.71,  max52:62.89,  min52:42.52,  mm1000:57.55,  pct_mm:3.56,  cap:"121.687M", bpa:3.46,  dpa:2.52,  rpd:4.23, rpd5:3.92,  perf:9.71},
-  {ticker:"BX",   yticker:"BX",      name:"Blackstone Inc",          mkt:"NYSE",   cur:"USD", sector:"Cíclico",   sub:"Servicios financieros",  per:29.21, var:-1.12, price:113.05, med52:145.91, max52:190.09, min52:101.73, mm1000:125.16, pct_mm:-9.68, cap:"134.277M", bpa:3.87,  dpa:4.74,  rpd:4.19, rpd5:3.34,  perf:14.46},
-  {ticker:"CSCO", yticker:"CSCO",    name:"Cisco",                   mkt:"NASDAQ", cur:"USD", sector:"Cíclico",   sub:"Tecnología",             per:28.46, var:1.95,  price:79.02,  med52:70.15,  max52:88.19,  min52:52.11,  mm1000:55.77,  pct_mm:41.69, cap:"312.121M", bpa:2.78,  dpa:1.68,  rpd:2.13, rpd5:2.83,  perf:17.51},
-  {ticker:"CVS",  yticker:"CVS",     name:"CVS Health",              mkt:"NYSE",   cur:"USD", sector:"Defensivo", sub:"Salud",                  per:52.83, var:1.38,  price:73.49,  med52:71.75,  max52:85.15,  min52:58.35,  mm1000:73.43,  pct_mm:0.08,  cap:"93.495M",  bpa:1.39,  dpa:2.66,  rpd:3.62, rpd5:3.21,  perf:8.99},
-  {ticker:"GIS",  yticker:"GIS",     name:"General Mills",           mkt:"NYSE",   cur:"USD", sector:"Defensivo", sub:"Consumo defensivo",      per:9.13,  var:0.56,  price:37.42,  med52:49.13,  max52:62.61,  min52:35.64,  mm1000:65.67,  pct_mm:-43.02,cap:"19.970M",  bpa:4.10,  dpa:2.44,  rpd:6.52, rpd5:3.55,  perf:11.37},
-  {ticker:"HSY",  yticker:"HSY",     name:"Hershey Co",              mkt:"NYSE",   cur:"USD", sector:"Defensivo", sub:"Consumo defensivo",      per:47.47, var:1.63,  price:206.19, med52:194.76, max52:239.48, min52:150.04, mm1000:202.17, pct_mm:1.99,  cap:"41.793M",  bpa:4.34,  dpa:5.81,  rpd:2.82, rpd5:2.30,  perf:20.93},
-  {ticker:"HD",   yticker:"HD",      name:"Home Depot Inc",          mkt:"NYSE",   cur:"USD", sector:"Cíclico",   sub:"Consumo cíclico",        per:22.61, var:-2.41, price:321.63, med52:372.71, max52:426.75, min52:318.66, mm1000:344.61, pct_mm:-6.67, cap:"320.347M", bpa:14.23, dpa:9.32,  rpd:2.90, rpd5:2.34,  perf:19.72},
-  {ticker:"JNJ",  yticker:"JNJ",     name:"Johnson & Johnson",       mkt:"NYSE",   cur:"USD", sector:"Defensivo", sub:"Salud",                  per:21.24, var:-0.44, price:243.04, med52:196.61, max52:251.71, min52:141.50, mm1000:168.08, pct_mm:44.59, cap:"585.389M", bpa:11.44, dpa:5.20,  rpd:2.14, rpd5:2.77,  perf:19.33},
-  {ticker:"KO",   yticker:"KO",      name:"Coca-Cola Co",            mkt:"NYSE",   cur:"USD", sector:"Defensivo", sub:"Consumo defensivo",      per:25.25, var:0.84,  price:76.72,  med52:73.68,  max52:82.00,  min52:65.35,  mm1000:64.62,  pct_mm:18.72, cap:"330.214M", bpa:3.04,  dpa:2.06,  rpd:2.69, rpd5:2.90,  perf:22.19},
-  {ticker:"KVUE", yticker:"KVUE",    name:"Kenvue Inc.",             mkt:"NYSE",   cur:"USD", sector:"Defensivo", sub:"Consumo defensivo",      per:22.43, var:-1.38, price:17.14,  med52:19.60,  max52:25.17,  min52:14.02,  mm1000:20.81,  pct_mm:-17.62,cap:"32.853M",  bpa:0.76,  dpa:0.83,  rpd:4.84, rpd5:null, perf:14.16},
-  {ticker:"MMM",  yticker:"MMM",     name:"3M Co",                  mkt:"NYSE",   cur:"USD", sector:"Sensitivo", sub:"Industrial",             per:24.06, var:-0.54, price:144.47, med52:149.70, max52:177.41, min52:121.98, mm1000:117.18, pct_mm:23.28, cap:"75.471M",  bpa:6.00,  dpa:3.12,  rpd:2.16, rpd5:3.91,  perf:15.39},
-  {ticker:"MO",   yticker:"MO",      name:"Altria Group Inc",        mkt:"NYSE",   cur:"USD", sector:"Defensivo", sub:"Consumo defensivo",      per:15.98, var:0.43,  price:65.76,  med52:61.67,  max52:70.51,  min52:52.82,  mm1000:50.40,  pct_mm:30.48, cap:"109.944M", bpa:4.12,  dpa:4.24,  rpd:6.45, rpd5:7.67,  perf:11.32},
-  {ticker:"MSFT", yticker:"MSFT",    name:"Microsoft Corp",          mkt:"NASDAQ", cur:"USD", sector:"Sensitivo", sub:"Tecnología",             per:23.37, var:1.11,  price:373.46, med52:450.12, max52:555.45, min52:344.79, mm1000:378.57, pct_mm:-1.35, cap:"2.773.176M",bpa:15.98,dpa:3.64,  rpd:0.97, rpd5:0.79,  perf:19.82},
-  {ticker:"NESN", yticker:"NESN.SW", name:"Nestlé SA",               mkt:"SWX",    cur:"CHF", sector:"Defensivo", sub:"Consumo defensivo",      per:22.32, var:-0.03, price:78.37,  med52:80.64,  max52:91.38,  min52:69.90,  mm1000:94.11,  pct_mm:-16.73,cap:"254.278M", bpa:3.51,  dpa:3.10,  rpd:3.96, rpd5:3.03,  perf:16.86},
-  {ticker:"O",    yticker:"O",       name:"Realty Income Corp",      mkt:"NYSE",   cur:"USD", sector:"Cíclico",   sub:"Bienes raíces",          per:53.38, var:0.53,  price:62.21,  med52:59.33,  max52:67.94,  min52:50.71,  mm1000:59.02,  pct_mm:5.40,  cap:"58.008M",  bpa:1.17,  dpa:3.23,  rpd:5.20, rpd5:5.00,  perf:35.43},
-  {ticker:"PM",   yticker:"PM",      name:"Philip Morris Intl",      mkt:"NYSE",   cur:"USD", sector:"Defensivo", sub:"Consumo defensivo",      per:21.77, var:0.49,  price:158.10, med52:166.71, max52:191.30, min52:142.11, mm1000:120.71, pct_mm:30.98, cap:"246.404M", bpa:7.26,  dpa:5.88,  rpd:3.72, rpd5:4.65,  perf:17.19},
-  {ticker:"SBUX", yticker:"SBUX",    name:"Starbucks Corporation",   mkt:"NASDAQ", cur:"USD", sector:"Cíclico",   sub:"Consumo cíclico",        per:75.28, var:-0.07, price:90.37,  med52:90.16,  max52:104.82, min52:75.50,  mm1000:92.80,  pct_mm:-2.62, cap:"102.959M", bpa:1.20,  dpa:2.48,  rpd:2.74, rpd5:2.26,  perf:30.60},
-  {ticker:"SPG",  yticker:"SPG",     name:"Simon Property Group",    mkt:"NYSE",   cur:"USD", sector:"Cíclico",   sub:"Bienes raíces",          per:13.32, var:0.31,  price:188.67, med52:170.73, max52:205.12, min52:136.34, mm1000:144.85, pct_mm:30.25, cap:"61.309M",  bpa:14.17, dpa:8.65,  rpd:4.58, rpd5:5.11,  perf:27.29},
-  {ticker:"TROW", yticker:"TROW",    name:"T. Rowe Price Group",     mkt:"NASDAQ", cur:"USD", sector:"Cíclico",   sub:"Servicios financieros",  per:9.75,  var:0.33,  price:90.17,  med52:98.04,  max52:118.22, min52:77.85,  mm1000:108.37, pct_mm:-16.79,cap:"19.622M",  bpa:9.24,  dpa:5.20,  rpd:5.77, rpd5:4.06,  perf:8.92},
-  {ticker:"TXN",  yticker:"TXN",     name:"Texas Instruments",       mkt:"NASDAQ", cur:"USD", sector:"Sensitivo", sub:"Tecnología",             per:35.78, var:-0.73, price:194.87, med52:185.64, max52:231.32, min52:139.95, mm1000:179.23, pct_mm:8.72,  cap:"177.422M", bpa:5.45,  dpa:5.68,  rpd:2.91, rpd5:2.72,  perf:24.64},
-  {ticker:"WSO",  yticker:"WSO",     name:"Watsco Inc",              mkt:"NYSE",   cur:"USD", sector:"Sensitivo", sub:"Industrial",             per:30.24, var:-1.49, price:370.31, med52:420.53, max52:518.00, min52:323.05, mm1000:389.71, pct_mm:-4.98, cap:"14.985M",  bpa:12.25, dpa:13.20, rpd:3.56, rpd5:2.67,  perf:26.12},
+// ─── API ─────────────────────────────────────────────────────────────────────
+const APIKEY = "HvTndO7XfRdtO4aHlKt66BiswEQuOmlc";
+const BASE   = "https://financialmodelingprep.com/api/v3/";
+
+// ─── DATOS DE REFERENCIA (estáticos: per, dpa, rpdpct, perfuturo, mm200, mm1000) ──
+const DATOSREF = {
+  "ALV.DE"  :{per:13.29,dpa:17.10,rpdpct:4.65, perfuturo:11.02,mm200:320.00, mm1000:270.39},
+  "BN.PA"   :{per:24.60,dpa:2.25, rpdpct:3.25, perfuturo:16.34,mm200:68.00,  mm1000:61.73},
+  "ENG.MC"  :{per:13.31,dpa:1.00, rpdpct:5.81, perfuturo:17.16,mm200:14.90,  mm1000:15.11},
+  "MC.PA"   :{per:21.56,dpa:13.00,rpdpct:2.76, perfuturo:17.70,mm200:530.00, mm1000:670.16},
+  "OR.PA"   :{per:31.30,dpa:7.20, rpdpct:2.01, perfuturo:24.37,mm200:370.00, mm1000:383.02},
+  "BATS.L"  :{per:12.52,dpa:2.45, rpdpct:5.56, perfuturo:11.45,mm200:36.00,  mm1000:31.33},
+  "DGE.L"   :{per:17.05,dpa:0.63, rpdpct:4.51, perfuturo:11.47,mm200:18.00,  mm1000:27.37},
+  "RKT.L"   :{per:10.61,dpa:2.16, rpdpct:4.16, perfuturo:14.04,mm200:54.00,  mm1000:56.93},
+  "ULVR.L"  :{per:18.51,dpa:1.72, rpdpct:4.13, perfuturo:14.12,mm200:46.00,  mm1000:46.02},
+  "NESN.SW" :{per:22.32,dpa:3.10, rpdpct:3.96, perfuturo:16.86,mm200:82.00,  mm1000:94.11},
+  "AAPL"    :{per:32.38,dpa:1.04, rpdpct:0.41, perfuturo:27.47,mm200:220.00, mm1000:199.31},
+  "AMT"     :{per:32.19,dpa:6.89, rpdpct:3.97, perfuturo:25.06,mm200:185.00, mm1000:203.62},
+  "BLK"     :{per:28.01,dpa:22.92,rpdpct:2.37, perfuturo:15.67,mm200:950.00, mm1000:845.76},
+  "BMY"     :{per:17.23,dpa:2.52, rpdpct:4.23, perfuturo:9.71, mm200:52.00,  mm1000:57.55},
+  "BX"      :{per:29.21,dpa:4.74, rpdpct:4.19, perfuturo:14.46,mm200:138.00, mm1000:125.16},
+  "CSCO"    :{per:28.46,dpa:1.68, rpdpct:2.13, perfuturo:17.51,mm200:65.00,  mm1000:55.77},
+  "CVS"     :{per:52.83,dpa:2.66, rpdpct:3.62, perfuturo:8.99, mm200:70.00,  mm1000:73.43},
+  "GIS"     :{per:9.13, dpa:2.44, rpdpct:6.52, perfuturo:11.37,mm200:48.00,  mm1000:65.67},
+  "HSY"     :{per:47.47,dpa:5.81, rpdpct:2.82, perfuturo:20.93,mm200:190.00, mm1000:202.17},
+  "HD"      :{per:22.61,dpa:9.32, rpdpct:2.90, perfuturo:19.72,mm200:360.00, mm1000:344.61},
+  "JNJ"     :{per:21.24,dpa:5.20, rpdpct:2.14, perfuturo:19.33,mm200:158.00, mm1000:168.08},
+  "KO"      :{per:25.25,dpa:2.06, rpdpct:2.69, perfuturo:22.19,mm200:71.00,  mm1000:64.62},
+  "KVUE"    :{per:22.43,dpa:0.83, rpdpct:4.84, perfuturo:14.16,mm200:19.00,  mm1000:20.81},
+  "MMM"     :{per:24.06,dpa:3.12, rpdpct:2.16, perfuturo:15.39,mm200:145.00, mm1000:117.18},
+  "MO"      :{per:15.98,dpa:4.24, rpdpct:6.45, perfuturo:11.32,mm200:58.00,  mm1000:50.40},
+  "MSFT"    :{per:23.37,dpa:3.64, rpdpct:0.97, perfuturo:19.82,mm200:420.00, mm1000:378.57},
+  "O"       :{per:53.38,dpa:3.23, rpdpct:5.20, perfuturo:35.43,mm200:57.00,  mm1000:59.02},
+  "PM"      :{per:21.77,dpa:5.88, rpdpct:3.72, perfuturo:17.19,mm200:148.00, mm1000:120.71},
+  "SBUX"    :{per:75.28,dpa:2.48, rpdpct:2.74, perfuturo:30.60,mm200:88.00,  mm1000:92.80},
+  "SPG"     :{per:13.32,dpa:8.65, rpdpct:4.58, perfuturo:27.29,mm200:165.00, mm1000:144.85},
+  "TROW"    :{per:9.75, dpa:5.20, rpdpct:5.77, perfuturo:8.92, mm200:95.00,  mm1000:108.37},
+  "TXN"     :{per:35.78,dpa:5.68, rpdpct:2.91, perfuturo:24.64,mm200:180.00, mm1000:179.23},
+  "WSO"     :{per:30.24,dpa:13.20,rpdpct:3.56, perfuturo:26.12,mm200:400.00, mm1000:389.71},
+};
+
+const STOCKSBASE = [
+  {ticker:"ALV",  fmp:"ALV.DE",  nombre:"Allianz SE",              mercado:"ETR",    divisa:"EUR", sector:"Cíclico",   subsector:"Servicios financieros"},
+  {ticker:"BN",   fmp:"BN.PA",   nombre:"Danone",                  mercado:"EPA",    divisa:"EUR", sector:"Defensivo", subsector:"Consumo defensivo"},
+  {ticker:"ENG",  fmp:"ENG.MC",  nombre:"Enagas SA",               mercado:"BME",    divisa:"EUR", sector:"Defensivo", subsector:"Utilidades"},
+  {ticker:"MC",   fmp:"MC.PA",   nombre:"LVMH Moet Hennessy",      mercado:"EPA",    divisa:"EUR", sector:"Cíclico",   subsector:"Consumo cíclico"},
+  {ticker:"OR",   fmp:"OR.PA",   nombre:"L\'Oreal SA",             mercado:"EPA",    divisa:"EUR", sector:"Defensivo", subsector:"Consumo defensivo"},
+  {ticker:"BATS", fmp:"BATS.L",  nombre:"British American Tobacco", mercado:"LON",   divisa:"GBP", sector:"Defensivo", subsector:"Consumo defensivo"},
+  {ticker:"DGE",  fmp:"DGE.L",   nombre:"Diageo plc",              mercado:"LON",    divisa:"GBP", sector:"Defensivo", subsector:"Consumo defensivo"},
+  {ticker:"RKT",  fmp:"RKT.L",   nombre:"Reckitt Benckiser",       mercado:"LON",    divisa:"GBP", sector:"Defensivo", subsector:"Consumo defensivo"},
+  {ticker:"ULVR", fmp:"ULVR.L",  nombre:"Unilever plc",            mercado:"LON",    divisa:"GBP", sector:"Defensivo", subsector:"Consumo defensivo"},
+  {ticker:"NESN", fmp:"NESN.SW", nombre:"Nestlé SA",               mercado:"SWX",    divisa:"CHF", sector:"Defensivo", subsector:"Consumo defensivo"},
+  {ticker:"AAPL", fmp:"AAPL",    nombre:"Apple Inc",               mercado:"NASDAQ", divisa:"USD", sector:"Sensitivo", subsector:"Tecnología"},
+  {ticker:"AMT",  fmp:"AMT",     nombre:"American Tower",          mercado:"NYSE",   divisa:"USD", sector:"Sensitivo", subsector:"Industrial"},
+  {ticker:"BLK",  fmp:"BLK",     nombre:"Blackrock",               mercado:"NYSE",   divisa:"USD", sector:"Defensivo", subsector:"Servicios financieros"},
+  {ticker:"BMY",  fmp:"BMY",     nombre:"Bristol-Myers Squibb",    mercado:"NYSE",   divisa:"USD", sector:"Defensivo", subsector:"Salud"},
+  {ticker:"BX",   fmp:"BX",      nombre:"Blackstone Inc",          mercado:"NYSE",   divisa:"USD", sector:"Cíclico",   subsector:"Servicios financieros"},
+  {ticker:"CSCO", fmp:"CSCO",    nombre:"Cisco",                   mercado:"NASDAQ", divisa:"USD", sector:"Cíclico",   subsector:"Tecnología"},
+  {ticker:"CVS",  fmp:"CVS",     nombre:"CVS Health",              mercado:"NYSE",   divisa:"USD", sector:"Defensivo", subsector:"Salud"},
+  {ticker:"GIS",  fmp:"GIS",     nombre:"General Mills",           mercado:"NYSE",   divisa:"USD", sector:"Defensivo", subsector:"Consumo defensivo"},
+  {ticker:"HSY",  fmp:"HSY",     nombre:"Hershey Co",              mercado:"NYSE",   divisa:"USD", sector:"Defensivo", subsector:"Consumo defensivo"},
+  {ticker:"HD",   fmp:"HD",      nombre:"Home Depot Inc",          mercado:"NYSE",   divisa:"USD", sector:"Cíclico",   subsector:"Consumo cíclico"},
+  {ticker:"JNJ",  fmp:"JNJ",     nombre:"Johnson & Johnson",       mercado:"NYSE",   divisa:"USD", sector:"Defensivo", subsector:"Salud"},
+  {ticker:"KO",   fmp:"KO",      nombre:"Coca-Cola Co",            mercado:"NYSE",   divisa:"USD", sector:"Defensivo", subsector:"Consumo defensivo"},
+  {ticker:"KVUE", fmp:"KVUE",    nombre:"Kenvue Inc.",             mercado:"NYSE",   divisa:"USD", sector:"Defensivo", subsector:"Consumo defensivo"},
+  {ticker:"MMM",  fmp:"MMM",     nombre:"3M Co",                   mercado:"NYSE",   divisa:"USD", sector:"Sensitivo", subsector:"Industrial"},
+  {ticker:"MO",   fmp:"MO",      nombre:"Altria Group Inc",        mercado:"NYSE",   divisa:"USD", sector:"Defensivo", subsector:"Consumo defensivo"},
+  {ticker:"MSFT", fmp:"MSFT",    nombre:"Microsoft Corp",          mercado:"NASDAQ", divisa:"USD", sector:"Sensitivo", subsector:"Tecnología"},
+  {ticker:"O",    fmp:"O",       nombre:"Realty Income Corp",      mercado:"NYSE",   divisa:"USD", sector:"Cíclico",   subsector:"Bienes raíces"},
+  {ticker:"PM",   fmp:"PM",      nombre:"Philip Morris Intl",      mercado:"NYSE",   divisa:"USD", sector:"Defensivo", subsector:"Consumo defensivo"},
+  {ticker:"SBUX", fmp:"SBUX",    nombre:"Starbucks Corporation",   mercado:"NASDAQ", divisa:"USD", sector:"Cíclico",   subsector:"Consumo cíclico"},
+  {ticker:"SPG",  fmp:"SPG",     nombre:"Simon Property Group",    mercado:"NYSE",   divisa:"USD", sector:"Cíclico",   subsector:"Bienes raíces"},
+  {ticker:"TROW", fmp:"TROW",    nombre:"T. Rowe Price Group",     mercado:"NASDAQ", divisa:"USD", sector:"Cíclico",   subsector:"Servicios financieros"},
+  {ticker:"TXN",  fmp:"TXN",     nombre:"Texas Instruments",       mercado:"NASDAQ", divisa:"USD", sector:"Sensitivo", subsector:"Tecnología"},
+  {ticker:"WSO",  fmp:"WSO",     nombre:"Watsco Inc",              mercado:"NYSE",   divisa:"USD", sector:"Sensitivo", subsector:"Industrial"},
 ];
 
-// ─── CONFIGURACIÓN ──────────────────────────────────────────────────────────
-const REFRESH_MINS = 3;
-const REFRESH_MS   = REFRESH_MINS * 60 * 1000;
-const FIELDS = "regularMarketPrice,regularMarketChangePercent,trailingPE,forwardPE,trailingAnnualDividendYield,trailingAnnualDividendRate,fiftyTwoWeekHigh,fiftyTwoWeekLow,epsTrailingTwelveMonths,marketCap";
+// Precios de referencia para fallback estático
+const PRECIOS_REF = {
+  "ALV.DE":367.90,"BN.PA":69.24,"ENG.MC":17.20,"MC.PA":471.05,"OR.PA":358.20,
+  "BATS.L":44.19,"DGE.L":13.96,"RKT.L":51.88,"ULVR.L":41.73,"NESN.SW":78.37,
+  "AAPL":255.92,"AMT":173.73,"BLK":966.56,"BMY":59.60,"BX":113.05,
+  "CSCO":79.02,"CVS":73.49,"GIS":37.42,"HSY":206.19,"HD":321.63,
+  "JNJ":243.04,"KO":76.72,"KVUE":17.14,"MMM":144.47,"MO":65.76,
+  "MSFT":373.46,"O":62.21,"PM":158.10,"SBUX":90.37,"SPG":188.67,
+  "TROW":90.17,"TXN":194.87,"WSO":370.31
+};
 
-// ─── FETCH CON PROXIES ───────────────────────────────────────────────────────
-async function fetchQuotes() {
-  const symbols = stocks.map(s => s.yticker).join(",");
-  const yahooUrl = `https://query1.finance.yahoo.com/v7/finance/quote?symbols=${symbols}&fields=${FIELDS}&lang=en&region=US`;
-
-  const attempts = [
-    { url: yahooUrl,                                                        parse: r => r },
-    { url: `https://corsproxy.io/?${encodeURIComponent(yahooUrl)}`,         parse: r => r },
-    { url: `https://api.allorigins.win/get?url=${encodeURIComponent(yahooUrl)}`, parse: r => JSON.parse(r.contents) },
-    { url: `https://query2.finance.yahoo.com/v7/finance/quote?symbols=${symbols}&fields=${FIELDS}`, parse: r => r },
-  ];
-
-  for (const attempt of attempts) {
-    try {
-      const res = await fetch(attempt.url, { signal: AbortSignal.timeout(8000) });
-      if (!res.ok) continue;
-      const raw  = await res.json();
-      const data = attempt.parse(raw);
-      const result = data?.quoteResponse?.result;
-      if (result && result.length > 0) return result;
-    } catch(e) { /* siguiente proxy */ }
-  }
-  return null;
-}
-
-function formatCap(n) {
-  if (!n) return "—";
-  if (n >= 1e12) return (n/1e12).toFixed(3).replace(".",",") + "B";
-  if (n >= 1e9)  return (n/1e9).toFixed(3).replace(".",",")  + "M";
-  return (n/1e6).toFixed(1) + "K";
-}
-
-function applyQuotes(quotes) {
-  let updated = 0;
-  quotes.forEach(q => {
-    const s = stocks.find(s => s.yticker === q.symbol || s.ticker === q.symbol);
-    if (!s) return;
-    if (q.regularMarketPrice            != null) s.price  = q.regularMarketPrice;
-    if (q.regularMarketChangePercent    != null) s.var    = q.regularMarketChangePercent;
-    if (q.trailingPE                    != null) s.per    = q.trailingPE;
-    if (q.forwardPE                     != null) s.perf   = q.forwardPE;
-    if (q.trailingAnnualDividendYield   != null) s.rpd    = q.trailingAnnualDividendYield * 100;
-    if (q.trailingAnnualDividendRate    != null) s.dpa    = q.trailingAnnualDividendRate;
-    if (q.epsTrailingTwelveMonths       != null) s.bpa    = q.epsTrailingTwelveMonths;
-    if (q.fiftyTwoWeekHigh              != null) s.max52  = q.fiftyTwoWeekHigh;
-    if (q.fiftyTwoWeekLow               != null) s.min52  = q.fiftyTwoWeekLow;
-    if (q.marketCap                     != null) s.cap    = formatCap(q.marketCap);
-    // Recalcular %MM1000 con precio actualizado
-    if (s.mm1000 && s.price) s.pct_mm = ((s.price - s.mm1000) / s.mm1000) * 100;
-    updated++;
+function calcDesc(p, mm) { return (!p || !mm) ? null : (p - mm) / mm * 100; }
+function initStocks() {
+  return STOCKSBASE.map(s => {
+    const r = DATOSREF[s.fmp] || {};
+    const precio = PRECIOS_REF[s.fmp] || null;
+    return { ...s, ...r, precio, variacionpct: null,
+      max52: r.max52||null, min52: r.min52||null,
+      capitalizacion: null,
+      descmm200:  calcDesc(precio, r.mm200),
+      descmm1000: calcDesc(precio, r.mm1000),
+    };
   });
-  return updated;
+}
+let stocks = initStocks();
+
+// ─── FETCH FMP ───────────────────────────────────────────────────────────────
+async function fetchAll() {
+  const btn = document.getElementById("refreshBtn");
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spin">⟳</span> Actualizando...';
+  setStatus("loading", "Actualizando...");
+
+  const syms = [...new Set(STOCKSBASE.map(s => s.fmp))].join(",");
+  try {
+    const res = await fetch(`${BASE}quotes/${syms}?apikey=${APIKEY}`);
+    if (!res.ok) throw new Error("HTTP " + res.status);
+    const data = await res.json();
+    if (!Array.isArray(data) || data.length === 0) throw new Error("Sin datos");
+
+    stocks = STOCKSBASE.map(s => {
+      const r    = DATOSREF[s.fmp] || {};
+      const live = data.find(q => q.symbol === s.fmp);
+      const precio      = live?.price           ?? PRECIOS_REF[s.fmp] ?? null;
+      const mm200       = live?.priceAvg200      ?? r.mm200 ?? null;
+      const mm1000      = r.mm1000 ?? null;
+      const max52       = live?.yearHigh         ?? null;
+      const min52       = live?.yearLow          ?? null;
+      const per         = live?.pe               ?? r.per   ?? null;
+      const capitalizacion = live?.marketCap ? formatCap(live.marketCap) : null;
+      return { ...s, ...r, precio,
+        variacionpct: live?.changesPercentage ?? null,
+        per, max52, min52, capitalizacion,
+        mm200, mm1000,
+        descmm200:  calcDesc(precio, mm200),
+        descmm1000: calcDesc(precio, mm1000),
+      };
+    });
+
+    document.getElementById("errorBox").style.display = "none";
+    setStatus("ok", "Tiempo real · " + new Date().toLocaleTimeString("es-ES",{hour:"2-digit",minute:"2-digit"}));
+  } catch(e) {
+    // Fallback estático
+    stocks = STOCKSBASE.map(s => {
+      const r = DATOSREF[s.fmp] || {};
+      const precio = PRECIOS_REF[s.fmp] || null;
+      return { ...s, ...r, precio, variacionpct:null,
+        max52:null,min52:null,capitalizacion:null,
+        descmm200:calcDesc(precio,r.mm200), descmm1000:calcDesc(precio,r.mm1000) };
+    });
+    const eb = document.getElementById("errorBox");
+    eb.style.display = "block";
+    eb.textContent = "⚠️ Error al obtener datos en tiempo real (" + e.message + "). Mostrando datos de referencia abr 2025.";
+    setStatus("error", "Error · datos de referencia");
+  }
+
+  renderTable();
+  if (selectedTicker) mostrarDetalle(selectedTicker);
+  btn.disabled = false;
+  btn.innerHTML = "🔄 Actualizar";
+  resetCountdown();
 }
 
-// ─── ESTADO ─────────────────────────────────────────────────────────────────
-let isLive = false;
-let lastUpdate = null;
-let refreshTimer = null;
-let sortKey = "ticker", sortAsc = true;
+// ─── ESTADO ──────────────────────────────────────────────────────────────────
+let intervalSeg = 300, intervalId = null, countdownId = null, segsLeft = 300;
+let sortKey = "ticker", sortDir = 1, selectedTicker = null;
 
 function setStatus(state, text) {
-  const dot  = document.getElementById("statusDot");
-  const span = document.getElementById("statusText");
-  dot.className = "status-dot " + state;
-  span.textContent = text;
+  document.getElementById("statusDot").className = "status-dot " + state;
+  document.getElementById("statusText").textContent = text;
 }
 
-function updateLiveTag() {
-  const tag = document.getElementById("liveTag");
-  tag.innerHTML = isLive
-    ? `<span class="live-tag">🟢 EN VIVO · actualiza cada ${REFRESH_MINS} min</span>`
-    : `<span class="static-tag">📋 Datos estáticos</span>`;
+function resetCountdown() {
+  segsLeft = intervalSeg;
+  if (countdownId) clearInterval(countdownId);
+  countdownId = setInterval(() => {
+    segsLeft--;
+    const m = Math.floor(segsLeft / 60), s = segsLeft % 60;
+    document.getElementById("countdown").textContent =
+      "Próxima: " + (m > 0 ? m + "m " : "") + s + "s";
+    if (segsLeft <= 0) clearInterval(countdownId);
+  }, 1000);
 }
 
-async function doRefresh() {
-  setStatus("loading", "Actualizando...");
-  document.getElementById("refreshBtn").disabled = true;
-  const quotes = await fetchQuotes();
-  if (quotes) {
-    const n = applyQuotes(quotes);
-    isLive = true;
-    lastUpdate = new Date();
-    setStatus("ok", `Actualizado · ${lastUpdate.toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit'})} (${n} acciones)`);
-  } else {
-    setStatus("error", "Error al obtener datos · usando datos estáticos");
-  }
-  updateLiveTag();
-  render();
-  document.getElementById("refreshBtn").disabled = false;
+function changeInterval() {
+  intervalSeg = parseInt(document.getElementById("intervalSelect").value);
+  if (intervalId) clearInterval(intervalId);
+  intervalId = setInterval(fetchAll, intervalSeg * 1000);
+  resetCountdown();
 }
 
 function manualRefresh() {
-  clearInterval(refreshTimer);
-  doRefresh().then(() => {
-    refreshTimer = setInterval(doRefresh, REFRESH_MS);
+  if (intervalId) clearInterval(intervalId);
+  fetchAll().then(() => {
+    intervalId = setInterval(fetchAll, intervalSeg * 1000);
   });
 }
 
-// ─── HELPERS UI ─────────────────────────────────────────────────────────────
-const fmt  = (n,d=2) => n==null ? "—" : n.toFixed(d);
-const fmtP = (n,d=2) => n==null ? "—" : n.toFixed(d)+"%";
-const fmtN = (n,d=2) => n==null ? "—" : n.toLocaleString("es-ES",{minimumFractionDigits:d,maximumFractionDigits:d});
-const rpdCls  = v => v>=5?"rpd-high":v>=3?"rpd-mid":"rpd-low";
-const perCls  = v => v<15?"per-low":v>35?"per-high":"per-mid";
-const mmPctCls= v => v<=0?"mm-bajo":"mm-sobre";
-const rangePos= (p,mn,mx) => mx===mn?50:Math.max(0,Math.min(100,((p-mn)/(mx-mn))*100));
+// ─── FORMATO ─────────────────────────────────────────────────────────────────
+function fmt(v, d=2, s="") { return v==null ? "—" : Number(v).toFixed(d) + s; }
+function fmtP(v, d=2)      { return v==null ? "—" : Number(v).toFixed(d) + "%"; }
+function formatCap(n)       { return n>=1e12?(n/1e12).toFixed(1)+"B":n>=1e9?(n/1e9).toFixed(0)+"M":"—"; }
 
-function buildDetail(s) {
-  const pos = rangePos(s.price, s.min52, s.max52);
-  return `<div class="detail-inner">
-    <div class="detail-section"><h3>💰 Precio y mercado</h3>
-      <div class="detail-grid">
-        <div><div class="dl">Precio</div><div class="dv">${fmtN(s.price)}</div></div>
-        <div><div class="dl">Var. diaria</div><div class="dv ${s.var>=0?'var-pos':'var-neg'}">${s.var>=0?'+':''}${fmt(s.var)}%</div></div>
-        <div><div class="dl">Mercado</div><div class="dv">${s.mkt}</div></div>
-        <div><div class="dl">Divisa</div><div class="dv">${s.cur}</div></div>
-        <div><div class="dl">Capitaliz.</div><div class="dv">${s.cap}</div></div>
-        <div><div class="dl">Subsector</div><div class="dv">${s.sub}</div></div>
-      </div>
-      <div class="progress-wrap">
-        <div class="progress-label"><span>Mín: ${fmtN(s.min52)}</span><span>Rango 52 sem.</span><span>Máx: ${fmtN(s.max52)}</span></div>
-        <div class="progress-bar"><div class="progress-fill" style="width:${pos}%"></div><div class="progress-dot" style="left:${pos}%"></div></div>
-      </div>
-    </div>
-    <div class="detail-section"><h3>📈 Medias Móviles</h3>
-      <div class="detail-grid">
-        <div><div class="dl">MM1000</div><div class="dv">${fmtN(s.mm1000)}</div></div>
-        <div><div class="dl">%MM1000</div><div class="dv ${mmPctCls(s.pct_mm)}">${s.pct_mm>=0?'+':''}${fmt(s.pct_mm)}%</div></div>
-        <div><div class="dl">Med.52sem</div><div class="dv">${fmtN(s.med52)}</div></div>
-        <div><div class="dl">Vs Med.52</div><div class="dv ${s.price>=s.med52?'mm-sobre':'mm-bajo'}">${s.price>=s.med52?'▲ Sobre':'▼ Bajo'}</div></div>
-      </div>
-    </div>
-    <div class="detail-section"><h3>📊 Valoración y dividendo</h3>
-      <div class="detail-grid">
-        <div><div class="dl">PER</div><div class="dv ${perCls(s.per)}">${fmt(s.per)}</div></div>
-        <div><div class="dl">PER futuro</div><div class="dv">${fmt(s.perf)}</div></div>
-        <div><div class="dl">BPA</div><div class="dv">${fmt(s.bpa)}</div></div>
-        <div><div class="dl">DPA</div><div class="dv">${fmt(s.dpa)}</div></div>
-        <div><div class="dl">RPD%</div><div class="dv ${rpdCls(s.rpd)}">${fmtP(s.rpd)}</div></div>
-        <div><div class="dl">5Y RPD%</div><div class="dv ${rpdCls(s.rpd5)}">${s.rpd5!=null?fmtP(s.rpd5):'—'}</div></div>
-      </div>
-    </div>
-  </div>`;
+function pctBadge(v) {
+  if (v==null) return '<span style="color:#6b7280">—</span>';
+  const p = v >= 0;
+  return `<span class="${p?'var-pos':'var-neg'}">${p?'+':''}${Math.abs(v).toFixed(2)}%</span>`;
 }
-
-function buildRows(arr) {
-  const tbody = document.getElementById("tbody");
-  tbody.innerHTML = "";
-  if (!arr.length) { tbody.innerHTML='<tr><td colspan="15" class="no-results">No se encontraron acciones</td></tr>'; return; }
-  arr.forEach(s => {
-    const tr = document.createElement("tr");
-    tr.innerHTML = `
-      <td class="ticker-cell">${s.ticker}</td>
-      <td class="empresa-cell">${s.name}</td>
-      <td><span class="mkt-badge">${s.mkt}</span></td>
-      <td><span class="div-badge">${s.cur}</span></td>
-      <td><span class="sector-badge sector-${s.sector}">${s.sector}</span></td>
-      <td>${fmtN(s.price)}</td>
-      <td class="${s.var>=0?'var-pos':'var-neg'}">${s.var>=0?'+':''}${fmt(s.var)}%</td>
-      <td class="${perCls(s.per)}">${fmt(s.per)}</td>
-      <td class="${rpdCls(s.rpd)}">${fmtP(s.rpd)}</td>
-      <td class="${mmPctCls(s.pct_mm)}">${fmtN(s.mm1000)}</td>
-      <td class="${mmPctCls(s.pct_mm)}">${s.pct_mm>=0?'+':''}${fmt(s.pct_mm)}%</td>
-      <td>${fmtN(s.max52)}</td>
-      <td>${fmtN(s.min52)}</td>
-      <td>${fmt(s.perf)}</td>
-      <td>${fmt(s.dpa)}</td>`;
-    tr.addEventListener("click", () => toggleDetail(tr, s));
-    tbody.appendChild(tr);
-  });
+function perBadge(v) {
+  if (!v) return "—";
+  const c = v<15?"per-low":v<30?"per-mid":"per-high";
+  return `<span class="${c}">${Number(v).toFixed(1)}x</span>`;
 }
-
-function toggleDetail(tr, s) {
-  const existing = document.querySelector(".detail-row");
-  if (existing) {
-    const wasThis = existing.previousElementSibling === tr;
-    existing.remove();
-    document.querySelectorAll("tbody tr").forEach(r => r.classList.remove("active"));
-    if (wasThis) return;
-  }
-  tr.classList.add("active");
-  const dr = document.createElement("tr");
-  dr.className = "detail-row";
-  dr.innerHTML = `<td colspan="15">${buildDetail(s)}</td>`;
-  tr.after(dr);
+function rpdBadge(v) {
+  if (!v) return "—";
+  const c = v>=4?"rpd-high":v>=2?"rpd-mid":"rpd-low";
+  return `<span class="${c}">${Number(v).toFixed(2)}%</span>`;
 }
+function mmBadge(v) {
+  if (v==null) return "—";
+  const c = v<=0?"mm-bajo":"mm-sobre";
+  return `<span class="${c}">${v>=0?'+':''}${Math.abs(v).toFixed(1)}%</span>`;
+}
+function mktBadge(m) {
+  return `<span class="mkt-badge m-${m}">${m}</span>`;
+}
+function sectorClass(s) { return s==="Defensivo"?"sector-Defensivo":s==="Cíclico"?"sector-Cíclico":"sector-Sensitivo"; }
 
+// ─── TABLA ───────────────────────────────────────────────────────────────────
 function getFiltered() {
   const q   = document.getElementById("search").value.toLowerCase();
   const sec = document.getElementById("fSector").value;
   const mkt = document.getElementById("fMkt").value;
   const cur = document.getElementById("fCur").value;
   return stocks.filter(s => {
-    if (sec && s.sector !== sec) return false;
-    if (mkt && s.mkt    !== mkt) return false;
-    if (cur && s.cur    !== cur) return false;
-    if (q && !s.ticker.toLowerCase().includes(q) && !s.name.toLowerCase().includes(q)) return false;
+    if (sec && s.sector !== sec)    return false;
+    if (mkt && s.mercado !== mkt)   return false;
+    if (cur && s.divisa !== cur)    return false;
+    if (q && !s.ticker.toLowerCase().includes(q) && !s.nombre.toLowerCase().includes(q)) return false;
     return true;
   });
 }
 
-function getSorted(arr) {
-  return [...arr].sort((a, b) => {
-    let va = a[sortKey], vb = b[sortKey];
-    if (typeof va === "string") return sortAsc ? va.localeCompare(vb) : vb.localeCompare(va);
-    va = va || 0; vb = vb || 0;
-    return sortAsc ? va - vb : vb - va;
+function sortBy(key) {
+  if (sortKey === key) sortDir = -sortDir; else { sortKey = key; sortDir = 1; }
+  renderTable();
+}
+
+function renderTable() {
+  const rows = getFiltered().sort((a,b) => {
+    let av = a[sortKey], bv = b[sortKey];
+    if (av==null) return 1; if (bv==null) return -1;
+    if (typeof av==="string") return av.localeCompare(bv) * sortDir;
+    return (av - bv) * sortDir;
   });
+
+  document.getElementById("tbody").innerHTML = rows.map(s => {
+    const sel = selectedTicker === s.fmp;
+    return `<tr class="${sel?'active':''}" onclick="toggleDetalle('${s.fmp}')">
+      <td class="ticker-cell">${s.ticker}</td>
+      <td><div class="empresa-cell">${s.nombre}</div><div class="empresa-sub">${s.fmp}</div></td>
+      <td>${mktBadge(s.mercado)}</td>
+      <td><span class="div-badge">${s.divisa}</span></td>
+      <td><span class="sector-badge ${sectorClass(s.sector)}">${s.sector}</span></td>
+      <td style="font-weight:700">${s.precio!=null?Number(s.precio).toLocaleString('es-ES',{minimumFractionDigits:2}):'—'}</td>
+      <td>${pctBadge(s.variacionpct)}</td>
+      <td>${perBadge(s.per)}</td>
+      <td>${rpdBadge(s.rpdpct)}</td>
+      <td class="td-mm" style="color:#9ca3af">${fmt(s.mm200)}</td>
+      <td class="td-mm">${mmBadge(s.descmm200)}</td>
+      <td class="td-mm" style="color:#9ca3af">${fmt(s.mm1000)}</td>
+      <td class="td-mm">${mmBadge(s.descmm1000)}</td>
+      <td style="color:#9ca3af">${fmt(s.max52)}</td>
+      <td style="color:#9ca3af">${fmt(s.min52)}</td>
+      <td>${perBadge(s.perfuturo)}</td>
+      <td style="color:#9ca3af">${s.dpa!=null?fmt(s.dpa)+' '+s.divisa:'—'}</td>
+    </tr>`;
+  }).join("");
+
+  // Stats
+  const f = getFiltered();
+  document.getElementById("st-total").textContent = f.length;
+  document.getElementById("st-up").textContent    = f.filter(s=>s.variacionpct>0).length;
+  document.getElementById("st-down").textContent  = f.filter(s=>s.variacionpct<0).length;
+  const rpds = f.filter(s=>s.rpdpct);
+  document.getElementById("st-rpd").textContent = rpds.length
+    ? (rpds.reduce((a,s)=>a+s.rpdpct,0)/rpds.length).toFixed(2)+"%"
+    : "—";
+  document.getElementById("st-mm").textContent = f.filter(s=>s.descmm1000!=null&&s.descmm1000<=0).length;
 }
 
-function updateStats(arr) {
-  document.getElementById("st-total").textContent = arr.length;
-  document.getElementById("st-up").textContent    = arr.filter(s => s.var > 0).length;
-  document.getElementById("st-down").textContent  = arr.filter(s => s.var < 0).length;
-  const avg = arr.reduce((a, s) => a + s.rpd, 0) / arr.length;
-  document.getElementById("st-rpd").textContent   = avg.toFixed(2) + "%";
-  document.getElementById("st-mm").textContent    = arr.filter(s => s.pct_mm <= 0).length;
+// ─── DETALLE ─────────────────────────────────────────────────────────────────
+function toggleDetalle(fmp) {
+  if (selectedTicker === fmp) { cerrarDetalle(); return; }
+  selectedTicker = fmp;
+  renderTable();
+  mostrarDetalle(fmp);
+}
+function cerrarDetalle() {
+  selectedTicker = null;
+  document.getElementById("detalle").style.display = "none";
+  renderTable();
 }
 
-function render() {
-  const filtered = getFiltered();
-  buildRows(getSorted(filtered));
-  updateStats(filtered);
+function mkCards(items) {
+  return items.map(i=>`<div class="detalle-card"><div class="detalle-label">${i.l}</div><div class="detalle-val">${i.v}</div></div>`).join("");
 }
 
-// ─── EVENTOS ─────────────────────────────────────────────────────────────────
-document.querySelectorAll("thead th[data-sort]").forEach(th => {
-  th.addEventListener("click", () => {
-    const k = th.dataset.sort;
-    if (sortKey === k) sortAsc = !sortAsc; else { sortKey = k; sortAsc = true; }
-    document.querySelectorAll("thead th").forEach(h => h.classList.remove("sorted"));
-    th.classList.add("sorted");
-    th.textContent = th.textContent.replace(/[↑↓↕]/g,"") + (sortAsc ? " ↑" : " ↓");
-    render();
+function mostrarDetalle(fmp) {
+  const s = stocks.find(x => x.fmp === fmp);
+  if (!s) return;
+  document.getElementById("d-titulo").textContent = s.ticker + " · " + s.nombre;
+  document.getElementById("d-sub").textContent    = s.fmp + " · " + s.mercado + " · " + s.sector + " · " + s.subsector;
+
+  document.getElementById("d-grid-precio").innerHTML = mkCards([
+    {l:"Precio",    v: s.precio!=null?Number(s.precio).toLocaleString('es-ES',{minimumFractionDigits:2})+" "+s.divisa:"—"},
+    {l:"Variación", v: s.variacionpct!=null?`<span class="${s.variacionpct>=0?'var-pos':'var-neg'}">${s.variacionpct>=0?'+':''}${s.variacionpct.toFixed(2)}%</span>`:"—"},
+    {l:"Máximo 52s",v: s.max52!=null?fmt(s.max52)+" "+s.divisa:"—"},
+    {l:"Mínimo 52s",v: s.min52!=null?fmt(s.min52)+" "+s.divisa:"—"},
+    {l:"Capitaliz.", v: s.capitalizacion||"—"},
+    {l:"Divisa",    v: s.divisa},
+  ]);
+
+  document.getElementById("d-grid-mm").innerHTML = mkCards([
+    {l:"MM 200 ses.", v: s.mm200!=null?fmt(s.mm200)+" "+s.divisa:"—"},
+    {l:"Desc. MM200", v: mmBadge(s.descmm200)},
+    {l:"MM 1000 ses.",v: s.mm1000!=null?fmt(s.mm1000)+" "+s.divisa:"—"},
+    {l:"Desc. MM1000",v: mmBadge(s.descmm1000)},
+  ]);
+
+  let bars = "";
+  [{l:"MM 200", mm:s.mm200, d:s.descmm200},{l:"MM 1000",mm:s.mm1000,d:s.descmm1000}].forEach(m=>{
+    if (!m.mm || !s.precio || m.d==null) return;
+    const mn=Math.min(s.precio,m.mm)*0.95, mx=Math.max(s.precio,m.mm)*1.05, rng=mx-mn;
+    const pp=((s.precio-mn)/rng*100).toFixed(1), mp=((m.mm-mn)/rng*100).toFixed(1);
+    const col = m.d<=0?"#22c55e":"#ef4444";
+    bars += `<div class="mm-bar-row">
+      <span class="mm-bar-label">${m.l}</span>
+      <div class="mm-bar-bg">
+        <div class="mm-bar-line" style="left:${mp}%"></div>
+        <div class="mm-bar-precio" style="left:${pp}%"></div>
+      </div>
+      <span class="mm-pct-val" style="color:${col}">${m.d>=0?'+':''}${m.d.toFixed(1)}%</span>
+    </div>`;
   });
-});
-["search","fSector","fMkt","fCur"].forEach(id =>
-  document.getElementById(id).addEventListener("input", render)
-);
+  document.getElementById("d-mm-bars").innerHTML = bars || '<p style="color:#6b7280;font-size:0.75rem;margin-top:8px">Sin datos MM</p>';
+
+  document.getElementById("d-grid-val").innerHTML = mkCards([
+    {l:"PER actual",  v: s.per!=null?`<span class="${s.per<15?'per-low':s.per<30?'per-mid':'per-high'}">${fmt(s.per,1)}x</span>`:"—"},
+    {l:"PER futuro",  v: s.perfuturo!=null?fmt(s.perfuturo,1)+"x":"—"},
+    {l:"DPA",         v: s.dpa!=null?fmt(s.dpa)+" "+s.divisa:"—"},
+    {l:"RPD%",        v: rpdBadge(s.rpdpct)},
+    {l:"Subsector",   v: s.subsector},
+  ]);
+
+  if (s.max52 && s.min52 && s.precio) {
+    const pct = Math.min(100,Math.max(0,(s.precio-s.min52)/(s.max52-s.min52)*100));
+    document.getElementById("d-rango").style.display = "block";
+    document.getElementById("d-rango-fill").style.width = pct+"%";
+    document.getElementById("d-min52").textContent = fmt(s.min52)+" "+s.divisa;
+    document.getElementById("d-max52").textContent = fmt(s.max52)+" "+s.divisa;
+  } else {
+    document.getElementById("d-rango").style.display = "none";
+  }
+  document.getElementById("detalle").style.display = "block";
+  document.getElementById("detalle").scrollIntoView({behavior:"smooth",block:"nearest"});
+}
 
 // ─── INICIO ──────────────────────────────────────────────────────────────────
-setStatus("", "Cargando datos...");
-updateLiveTag();
-render();  // mostrar datos estáticos inmediatamente
-
-doRefresh().then(() => {
-  refreshTimer = setInterval(doRefresh, REFRESH_MS);
-});
+renderTable();
+fetchAll();
+intervalId = setInterval(fetchAll, intervalSeg * 1000);
 </script>
 </body>
 </html>

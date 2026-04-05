@@ -8,48 +8,50 @@
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:#0d0d0d;color:#e2e8f0;font-family:'Segoe UI',system-ui,sans-serif;font-size:14px}
 
-/* HEADER */
 header{background:#111827;border-bottom:1px solid #1f2937;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
 header h1{font-size:1.1rem;font-weight:700;color:#60a5fa;display:flex;align-items:center;gap:6px}
+.header-right{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .fecha{color:#6b7280;font-size:0.75rem}
+.refresh-btn{background:#1f2937;border:1px solid #374151;color:#9ca3af;border-radius:6px;padding:5px 12px;font-size:0.78rem;cursor:pointer;transition:.15s}
+.refresh-btn:hover{border-color:#60a5fa;color:#60a5fa}
+.refresh-btn:disabled{opacity:.5;cursor:not-allowed}
+.status{font-size:0.72rem;display:flex;align-items:center;gap:5px}
+.status-dot{width:8px;height:8px;border-radius:50%;background:#374151}
+.status-dot.loading{background:#f59e0b;animation:pulse 1s infinite}
+.status-dot.ok{background:#22c55e}
+.status-dot.error{background:#ef4444}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
 
-/* STATS BAR */
 .stats{display:flex;flex-wrap:wrap;gap:0;background:#111827;border-bottom:1px solid #1f2937}
 .stat-item{flex:1;min-width:100px;padding:10px 16px;border-right:1px solid #1f2937;text-align:center}
 .stat-item:last-child{border-right:none}
 .stat-label{font-size:0.65rem;color:#6b7280;text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px}
-.stat-val{font-size:1.2rem;font-weight:700;color:#e2e8f0}
-.stat-val.green{color:#22c55e}
-.stat-val.red{color:#ef4444}
-.stat-val.blue{color:#60a5fa}
-.stat-val.yellow{color:#f59e0b}
+.stat-val{font-size:1.2rem;font-weight:700}
+.stat-val.green{color:#22c55e}.stat-val.red{color:#ef4444}.stat-val.blue{color:#60a5fa}.stat-val.yellow{color:#f59e0b}
 
-/* CONTROLS */
 .controls{background:#111827;border-bottom:1px solid #1f2937;padding:8px 16px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
 .controls select,.controls input{background:#1f2937;color:#e2e8f0;border:1px solid #374151;border-radius:6px;padding:5px 10px;font-size:0.8rem;outline:none;cursor:pointer}
 .controls select:focus,.controls input:focus{border-color:#60a5fa}
-.hint{background:#1f2937;border-bottom:1px solid #1f2937;padding:7px 16px;font-size:0.72rem;color:#9ca3af;display:flex;align-items:center;gap:6px}
-.hint .dot{width:10px;height:10px;border-radius:3px;display:inline-block}
-.dot-green{background:#22c55e}
-.dot-red{background:#ef4444}
+.hint{background:#111827;border-bottom:1px solid #1f2937;padding:7px 16px;font-size:0.72rem;color:#9ca3af;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.dot{width:10px;height:10px;border-radius:3px;display:inline-block}
+.dot-green{background:#22c55e}.dot-red{background:#ef4444}
 
-/* TABLE */
 .table-wrap{overflow-x:auto;width:100%}
-table{width:100%;border-collapse:collapse;min-width:900px}
+table{width:100%;border-collapse:collapse;min-width:960px}
 thead th{background:#111827;color:#9ca3af;font-size:0.68rem;text-transform:uppercase;letter-spacing:.4px;padding:9px 10px;text-align:right;border-bottom:2px solid #1f2937;cursor:pointer;white-space:nowrap;user-select:none}
-thead th:first-child,thead th:nth-child(2),thead th:nth-child(3),thead th:nth-child(4),thead th:nth-child(5){text-align:left}
+thead th:nth-child(-n+5){text-align:left}
 thead th:hover{color:#60a5fa}
 thead th.sorted{color:#60a5fa}
 
 tbody tr{border-bottom:1px solid #1a1a2e;transition:background .1s;cursor:pointer}
 tbody tr:hover{background:#1f2937}
 tbody tr.active{background:#1e293b}
-
-td{padding:8px 10px;font-size:0.82rem;text-align:right;white-space:nowrap}
-td:first-child,td:nth-child(2),td:nth-child(3),td:nth-child(4),td:nth-child(5){text-align:left}
+td{padding:8px 10px;font-size:0.82rem;text-align:right;white-space:nowrap;transition:background .4s}
+td:nth-child(-n+5){text-align:left}
+td.flash{background:#1e3a1e !important}
 
 .ticker-cell{font-weight:700;color:#60a5fa;font-size:0.9rem}
-.empresa-cell{color:#e2e8f0;max-width:160px;overflow:hidden;text-overflow:ellipsis}
+.empresa-cell{color:#e2e8f0;max-width:150px;overflow:hidden;text-overflow:ellipsis}
 .mkt-badge{font-size:0.68rem;background:#1f2937;border:1px solid #374151;border-radius:4px;padding:1px 6px;color:#9ca3af}
 .div-badge{font-size:0.68rem;background:#1e3a5f;border-radius:4px;padding:1px 6px;color:#93c5fd}
 .sector-badge{font-size:0.68rem;border-radius:4px;padding:1px 6px;font-weight:600}
@@ -57,71 +59,49 @@ td:first-child,td:nth-child(2),td:nth-child(3),td:nth-child(4),td:nth-child(5){t
 .sector-Cíclico{background:rgba(245,158,11,.15);color:#f59e0b}
 .sector-Sensitivo{background:rgba(96,165,250,.15);color:#60a5fa}
 
-.var-pos{color:#22c55e;font-weight:600}
-.var-neg{color:#ef4444;font-weight:600}
+.var-pos{color:#22c55e;font-weight:600}.var-neg{color:#ef4444;font-weight:600}
+.rpd-high{color:#22c55e;font-weight:700}.rpd-mid{color:#f59e0b;font-weight:600}.rpd-low{color:#9ca3af}
+.per-low{color:#22c55e}.per-mid{color:#f59e0b}.per-high{color:#ef4444}
+.mm-bajo{color:#22c55e;font-weight:600}.mm-sobre{color:#ef4444;font-weight:600}.mm-neutral{color:#9ca3af}
 
-/* MM coloring */
-.mm-bajo{color:#22c55e;font-weight:600}
-.mm-sobre{color:#ef4444;font-weight:600}
-.mm-neutral{color:#9ca3af}
-
-/* RPD coloring */
-.rpd-high{color:#22c55e;font-weight:700}
-.rpd-mid{color:#f59e0b;font-weight:600}
-.rpd-low{color:#9ca3af}
-
-/* PER coloring */
-.per-low{color:#22c55e}
-.per-mid{color:#f59e0b}
-.per-high{color:#ef4444}
-
-/* DETAIL PANEL */
 .detail-row td{padding:0;background:#0f172a;border-bottom:2px solid #1f2937}
 .detail-inner{padding:16px;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
 .detail-section{background:#1a2035;border:1px solid #1f2937;border-radius:8px;padding:12px}
 .detail-section h3{font-size:0.72rem;text-transform:uppercase;letter-spacing:.5px;color:#6b7280;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid #1f2937}
 .detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
-.detail-item{}
-.detail-item .dl{font-size:0.65rem;color:#6b7280;margin-bottom:1px}
-.detail-item .dv{font-size:0.9rem;font-weight:600;color:#e2e8f0}
-.progress-wrap{margin-top:6px}
+.dl{font-size:0.65rem;color:#6b7280;margin-bottom:1px}
+.dv{font-size:0.9rem;font-weight:600;color:#e2e8f0}
+.progress-wrap{margin-top:8px}
 .progress-label{display:flex;justify-content:space-between;font-size:0.65rem;color:#6b7280;margin-bottom:3px}
 .progress-bar{height:4px;background:#374151;border-radius:99px;position:relative}
 .progress-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,#3b82f6,#06b6d4)}
 .progress-dot{position:absolute;top:50%;transform:translate(-50%,-50%);width:8px;height:8px;border-radius:50%;background:#fff;border:2px solid #60a5fa}
-
-/* no results */
 .no-results{text-align:center;padding:40px;color:#6b7280}
+
+/* live badge */
+.live-tag{font-size:0.65rem;background:rgba(34,197,94,.15);color:#22c55e;border:1px solid rgba(34,197,94,.3);border-radius:4px;padding:1px 7px;font-weight:600}
+.static-tag{font-size:0.65rem;background:rgba(107,114,128,.1);color:#6b7280;border:1px solid #374151;border-radius:4px;padding:1px 7px}
 </style>
 </head>
 <body>
 
 <header>
   <h1>📊 Cartas del Dividendo</h1>
-  <span class="fecha">4 abr 2026 · Actualización manual</span>
+  <div class="header-right">
+    <div class="status">
+      <div class="status-dot" id="statusDot"></div>
+      <span id="statusText" class="fecha">Sin datos</span>
+    </div>
+    <button class="refresh-btn" id="refreshBtn" onclick="manualRefresh()">🔄 Actualizar</button>
+  </div>
 </header>
 
 <div class="stats">
-  <div class="stat-item">
-    <div class="stat-label">Empresas</div>
-    <div class="stat-val blue" id="st-total">—</div>
-  </div>
-  <div class="stat-item">
-    <div class="stat-label">Subiendo hoy</div>
-    <div class="stat-val green" id="st-up">—</div>
-  </div>
-  <div class="stat-item">
-    <div class="stat-label">Bajando hoy</div>
-    <div class="stat-val red" id="st-down">—</div>
-  </div>
-  <div class="stat-item">
-    <div class="stat-label">RPD Media</div>
-    <div class="stat-val yellow" id="st-rpd">—</div>
-  </div>
-  <div class="stat-item">
-    <div class="stat-label">Bajo MM1000</div>
-    <div class="stat-val green" id="st-mm">—</div>
-  </div>
+  <div class="stat-item"><div class="stat-label">Empresas</div><div class="stat-val blue" id="st-total">—</div></div>
+  <div class="stat-item"><div class="stat-label">Subiendo hoy</div><div class="stat-val green" id="st-up">—</div></div>
+  <div class="stat-item"><div class="stat-label">Bajando hoy</div><div class="stat-val red" id="st-down">—</div></div>
+  <div class="stat-item"><div class="stat-label">RPD Media</div><div class="stat-val yellow" id="st-rpd">—</div></div>
+  <div class="stat-item"><div class="stat-label">Bajo MM1000</div><div class="stat-val green" id="st-mm">—</div></div>
 </div>
 
 <div class="controls">
@@ -136,6 +116,7 @@ td:first-child,td:nth-child(2),td:nth-child(3),td:nth-child(4),td:nth-child(5){t
   <span class="dot dot-green"></span><span>Verde = precio bajo MM (descuento)</span>
   <span class="dot dot-red" style="margin-left:8px"></span><span>Rojo = precio sobre MM</span>
   <span style="margin-left:12px">💡 Toca fila para ver detalle</span>
+  <span style="margin-left:auto" id="liveTag"></span>
 </div>
 
 <div class="table-wrap">
@@ -164,195 +145,296 @@ td:first-child,td:nth-child(2),td:nth-child(3),td:nth-child(4),td:nth-child(5){t
 </div>
 
 <script>
+// ─── DATOS BASE (MM1000 estático, resto se actualiza via API) ──────────────
 const stocks = [
-  {ticker:"ALV",  name:"Allianz SE",              mkt:"ETR",    cur:"EUR", sector:"Cíclico",   sub:"Servicios financieros",  per:13.29, var:0.05,  price:367.90, med52:341.30, max52:396.00, min52:286.60, mm1000:270.39, pct_mm:36.06, cap:"139.614M", bpa:27.67, dpa:17.10, rpd:4.65, rpd5:4.80,  perf:11.02},
-  {ticker:"BN",   name:"Danone",                  mkt:"EPA",    cur:"EUR", sector:"Defensivo", sub:"Consumo defensivo",      per:24.60, var:0.26,  price:69.24,  med52:71.83,  max52:80.14,  min52:63.52,  mm1000:61.73,  pct_mm:12.17, cap:"54.672M",  bpa:2.81,  dpa:2.25,  rpd:3.25, rpd5:3.38,  perf:16.34},
-  {ticker:"ENG",  name:"Enagas SA",               mkt:"BME",    cur:"EUR", sector:"Defensivo", sub:"Utilidades",             per:13.31, var:1.68,  price:17.20,  med52:14.80,  max52:17.29,  min52:12.30,  mm1000:15.11,  pct_mm:13.86, cap:"4.505M",   bpa:1.29,  dpa:1.00,  rpd:5.81, rpd5:9.84,  perf:17.16},
-  {ticker:"MC",   name:"LVMH Moet Hennessy",      mkt:"EPA",    cur:"EUR", sector:"Cíclico",   sub:"Consumo cíclico",        per:21.56, var:-0.01, price:471.05, med52:545.63, max52:654.70, min52:436.55, mm1000:670.16, pct_mm:-29.71,cap:"271.664M", bpa:21.84, dpa:13.00, rpd:2.76, rpd5:1.71,  perf:17.70},
-  {ticker:"OR",   name:"L\'Oreal SA",             mkt:"EPA",    cur:"EUR", sector:"Defensivo", sub:"Consumo defensivo",      per:31.30, var:0.29,  price:358.20, med52:367.50, max52:408.35, min52:326.65, mm1000:383.02, pct_mm:-6.48, cap:"189.492M", bpa:11.44, dpa:7.20,  rpd:2.01, rpd5:1.49,  perf:24.37},
-  {ticker:"BATS", name:"British American Tobacco", mkt:"LON",   cur:"GBP", sector:"Defensivo", sub:"Consumo defensivo",      per:12.52, var:2.46,  price:44.19,  med52:38.96,  max52:48.77,  min52:29.16,  mm1000:31.33,  pct_mm:41.05, cap:"124.735M", bpa:3.53,  dpa:2.45,  rpd:5.56, rpd5:7.57,  perf:11.45},
-  {ticker:"DGE",  name:"Diageo plc",              mkt:"LON",    cur:"GBP", sector:"Defensivo", sub:"Consumo defensivo",      per:17.05, var:0.04,  price:13.96,  med52:17.83,  max52:22.15,  min52:13.50,  mm1000:27.37,  pct_mm:-49.01,cap:"40.347M",  bpa:0.82,  dpa:0.63,  rpd:4.51, rpd5:2.87,  perf:11.47},
-  {ticker:"RKT",  name:"Reckitt Benckiser",       mkt:"LON",    cur:"GBP", sector:"Defensivo", sub:"Consumo defensivo",      per:10.61, var:0.08,  price:51.88,  med52:55.47,  max52:65.14,  min52:45.79,  mm1000:56.93,  pct_mm:-8.87, cap:"44.417M",  bpa:4.89,  dpa:2.16,  rpd:4.16, rpd5:3.40,  perf:14.04},
-  {ticker:"ULVR", name:"Unilever plc",            mkt:"LON",    cur:"GBP", sector:"Defensivo", sub:"Consumo defensivo",      per:18.51, var:-0.35, price:41.73,  med52:48.38,  max52:55.42,  min52:41.35,  mm1000:46.02,  pct_mm:-9.34, cap:"119.643M", bpa:2.25,  dpa:1.72,  rpd:4.13, rpd5:3.56,  perf:14.12},
-  {ticker:"AAPL", name:"Apple Inc",               mkt:"NASDAQ", cur:"USD", sector:"Sensitivo", sub:"Tecnología",             per:32.38, var:0.11,  price:255.92, med52:228.91, max52:288.61, min52:169.21, mm1000:199.31, pct_mm:28.40, cap:"3.757.197M",bpa:7.90, dpa:1.04,  rpd:0.41, rpd5:0.51,  perf:27.47},
-  {ticker:"AMT",  name:"American Tower",          mkt:"NYSE",   cur:"USD", sector:"Sensitivo", sub:"Industrial",             per:32.19, var:1.58,  price:173.73, med52:199.71, max52:234.33, min52:165.08, mm1000:203.62, pct_mm:-14.68,cap:"80.973M",  bpa:5.40,  dpa:6.89,  rpd:3.97, rpd5:2.86,  perf:25.06},
-  {ticker:"BLK",  name:"Blackrock",               mkt:"NYSE",   cur:"USD", sector:"Defensivo", sub:"Servicios financieros",  per:28.01, var:0.96,  price:966.56, med52:996.84, max52:1219.94,min52:773.74, mm1000:845.76, pct_mm:14.28, cap:"150.340M", bpa:34.51, dpa:22.92, rpd:2.37, rpd5:2.33,  perf:15.67},
-  {ticker:"BMY",  name:"Bristol-Myers Squibb",    mkt:"NYSE",   cur:"USD", sector:"Defensivo", sub:"Salud",                  per:17.23, var:-2.45, price:59.60,  med52:52.71,  max52:62.89,  min52:42.52,  mm1000:57.55,  pct_mm:3.56,  cap:"121.687M", bpa:3.46,  dpa:2.52,  rpd:4.23, rpd5:3.92,  perf:9.71},
-  {ticker:"BX",   name:"Blackstone Inc",          mkt:"NYSE",   cur:"USD", sector:"Cíclico",   sub:"Servicios financieros",  per:29.21, var:-1.12, price:113.05, med52:145.91, max52:190.09, min52:101.73, mm1000:125.16, pct_mm:-9.68, cap:"134.277M", bpa:3.87,  dpa:4.74,  rpd:4.19, rpd5:3.34,  perf:14.46},
-  {ticker:"CSCO", name:"Cisco",                   mkt:"NASDAQ", cur:"USD", sector:"Cíclico",   sub:"Tecnología",             per:28.46, var:1.95,  price:79.02,  med52:70.15,  max52:88.19,  min52:52.11,  mm1000:55.77,  pct_mm:41.69, cap:"312.121M", bpa:2.78,  dpa:1.68,  rpd:2.13, rpd5:2.83,  perf:17.51},
-  {ticker:"CVS",  name:"CVS Health",              mkt:"NYSE",   cur:"USD", sector:"Defensivo", sub:"Salud",                  per:52.83, var:1.38,  price:73.49,  med52:71.75,  max52:85.15,  min52:58.35,  mm1000:73.43,  pct_mm:0.08,  cap:"93.495M",  bpa:1.39,  dpa:2.66,  rpd:3.62, rpd5:3.21,  perf:8.99},
-  {ticker:"GIS",  name:"General Mills",           mkt:"NYSE",   cur:"USD", sector:"Defensivo", sub:"Consumo defensivo",      per:9.13,  var:0.56,  price:37.42,  med52:49.13,  max52:62.61,  min52:35.64,  mm1000:65.67,  pct_mm:-43.02,cap:"19.970M",  bpa:4.10,  dpa:2.44,  rpd:6.52, rpd5:3.55,  perf:11.37},
-  {ticker:"HSY",  name:"Hershey Co",              mkt:"NYSE",   cur:"USD", sector:"Defensivo", sub:"Consumo defensivo",      per:47.47, var:1.63,  price:206.19, med52:194.76, max52:239.48, min52:150.04, mm1000:202.17, pct_mm:1.99,  cap:"41.793M",  bpa:4.34,  dpa:5.81,  rpd:2.82, rpd5:2.30,  perf:20.93},
-  {ticker:"HD",   name:"Home Depot Inc",          mkt:"NYSE",   cur:"USD", sector:"Cíclico",   sub:"Consumo cíclico",        per:22.61, var:-2.41, price:321.63, med52:372.71, max52:426.75, min52:318.66, mm1000:344.61, pct_mm:-6.67, cap:"320.347M", bpa:14.23, dpa:9.32,  rpd:2.90, rpd5:2.34,  perf:19.72},
-  {ticker:"JNJ",  name:"Johnson & Johnson",       mkt:"NYSE",   cur:"USD", sector:"Defensivo", sub:"Salud",                  per:21.24, var:-0.44, price:243.04, med52:196.61, max52:251.71, min52:141.50, mm1000:168.08, pct_mm:44.59, cap:"585.389M", bpa:11.44, dpa:5.20,  rpd:2.14, rpd5:2.77,  perf:19.33},
-  {ticker:"KO",   name:"Coca-Cola Co",            mkt:"NYSE",   cur:"USD", sector:"Defensivo", sub:"Consumo defensivo",      per:25.25, var:0.84,  price:76.72,  med52:73.68,  max52:82.00,  min52:65.35,  mm1000:64.62,  pct_mm:18.72, cap:"330.214M", bpa:3.04,  dpa:2.06,  rpd:2.69, rpd5:2.90,  perf:22.19},
-  {ticker:"KVUE", name:"Kenvue Inc.",             mkt:"NYSE",   cur:"USD", sector:"Defensivo", sub:"Consumo defensivo",      per:22.43, var:-1.38, price:17.14,  med52:19.60,  max52:25.17,  min52:14.02,  mm1000:20.81,  pct_mm:-17.62,cap:"32.853M",  bpa:0.76,  dpa:0.83,  rpd:4.84, rpd5:null, perf:14.16},
-  {ticker:"MMM",  name:"3M Co",                  mkt:"NYSE",   cur:"USD", sector:"Sensitivo", sub:"Industrial",             per:24.06, var:-0.54, price:144.47, med52:149.70, max52:177.41, min52:121.98, mm1000:117.18, pct_mm:23.28, cap:"75.471M",  bpa:6.00,  dpa:3.12,  rpd:2.16, rpd5:3.91,  perf:15.39},
-  {ticker:"MO",   name:"Altria Group Inc",        mkt:"NYSE",   cur:"USD", sector:"Defensivo", sub:"Consumo defensivo",      per:15.98, var:0.43,  price:65.76,  med52:61.67,  max52:70.51,  min52:52.82,  mm1000:50.40,  pct_mm:30.48, cap:"109.944M", bpa:4.12,  dpa:4.24,  rpd:6.45, rpd5:7.67,  perf:11.32},
-  {ticker:"MSFT", name:"Microsoft Corp",          mkt:"NASDAQ", cur:"USD", sector:"Sensitivo", sub:"Tecnología",             per:23.37, var:1.11,  price:373.46, med52:450.12, max52:555.45, min52:344.79, mm1000:378.57, pct_mm:-1.35, cap:"2.773.176M",bpa:15.98,dpa:3.64,  rpd:0.97, rpd5:0.79,  perf:19.82},
-  {ticker:"NESN", name:"Nestlé SA",               mkt:"SWX",    cur:"CHF", sector:"Defensivo", sub:"Consumo defensivo",      per:22.32, var:-0.03, price:78.37,  med52:80.64,  max52:91.38,  min52:69.90,  mm1000:94.11,  pct_mm:-16.73,cap:"254.278M", bpa:3.51,  dpa:3.10,  rpd:3.96, rpd5:3.03,  perf:16.86},
-  {ticker:"O",    name:"Realty Income Corp",      mkt:"NYSE",   cur:"USD", sector:"Cíclico",   sub:"Bienes raíces",          per:53.38, var:0.53,  price:62.21,  med52:59.33,  max52:67.94,  min52:50.71,  mm1000:59.02,  pct_mm:5.40,  cap:"58.008M",  bpa:1.17,  dpa:3.23,  rpd:5.20, rpd5:5.00,  perf:35.43},
-  {ticker:"PM",   name:"Philip Morris Intl",      mkt:"NYSE",   cur:"USD", sector:"Defensivo", sub:"Consumo defensivo",      per:21.77, var:0.49,  price:158.10, med52:166.71, max52:191.30, min52:142.11, mm1000:120.71, pct_mm:30.98, cap:"246.404M", bpa:7.26,  dpa:5.88,  rpd:3.72, rpd5:4.65,  perf:17.19},
-  {ticker:"SBUX", name:"Starbucks Corporation",   mkt:"NASDAQ", cur:"USD", sector:"Cíclico",   sub:"Consumo cíclico",        per:75.28, var:-0.07, price:90.37,  med52:90.16,  max52:104.82, min52:75.50,  mm1000:92.80,  pct_mm:-2.62, cap:"102.959M", bpa:1.20,  dpa:2.48,  rpd:2.74, rpd5:2.26,  perf:30.60},
-  {ticker:"SPG",  name:"Simon Property Group",    mkt:"NYSE",   cur:"USD", sector:"Cíclico",   sub:"Bienes raíces",          per:13.32, var:0.31,  price:188.67, med52:170.73, max52:205.12, min52:136.34, mm1000:144.85, pct_mm:30.25, cap:"61.309M",  bpa:14.17, dpa:8.65,  rpd:4.58, rpd5:5.11,  perf:27.29},
-  {ticker:"TROW", name:"T. Rowe Price Group",     mkt:"NASDAQ", cur:"USD", sector:"Cíclico",   sub:"Servicios financieros",  per:9.75,  var:0.33,  price:90.17,  med52:98.04,  max52:118.22, min52:77.85,  mm1000:108.37, pct_mm:-16.79,cap:"19.622M",  bpa:9.24,  dpa:5.20,  rpd:5.77, rpd5:4.06,  perf:8.92},
-  {ticker:"TXN",  name:"Texas Instruments",       mkt:"NASDAQ", cur:"USD", sector:"Sensitivo", sub:"Tecnología",             per:35.78, var:-0.73, price:194.87, med52:185.64, max52:231.32, min52:139.95, mm1000:179.23, pct_mm:8.72,  cap:"177.422M", bpa:5.45,  dpa:5.68,  rpd:2.91, rpd5:2.72,  perf:24.64},
-  {ticker:"WSO",  name:"Watsco Inc",              mkt:"NYSE",   cur:"USD", sector:"Sensitivo", sub:"Industrial",             per:30.24, var:-1.49, price:370.31, med52:420.53, max52:518.00, min52:323.05, mm1000:389.71, pct_mm:-4.98, cap:"14.985M",  bpa:12.25, dpa:13.20, rpd:3.56, rpd5:2.67,  perf:26.12},
+  {ticker:"ALV",  yticker:"ALV.DE",  name:"Allianz SE",              mkt:"ETR",    cur:"EUR", sector:"Cíclico",   sub:"Servicios financieros",  per:13.29, var:0.05,  price:367.90, med52:341.30, max52:396.00, min52:286.60, mm1000:270.39, pct_mm:36.06, cap:"139.614M", bpa:27.67, dpa:17.10, rpd:4.65, rpd5:4.80,  perf:11.02},
+  {ticker:"BN",   yticker:"BN.PA",   name:"Danone",                  mkt:"EPA",    cur:"EUR", sector:"Defensivo", sub:"Consumo defensivo",      per:24.60, var:0.26,  price:69.24,  med52:71.83,  max52:80.14,  min52:63.52,  mm1000:61.73,  pct_mm:12.17, cap:"54.672M",  bpa:2.81,  dpa:2.25,  rpd:3.25, rpd5:3.38,  perf:16.34},
+  {ticker:"ENG",  yticker:"ENG.MC",  name:"Enagas SA",               mkt:"BME",    cur:"EUR", sector:"Defensivo", sub:"Utilidades",             per:13.31, var:1.68,  price:17.20,  med52:14.80,  max52:17.29,  min52:12.30,  mm1000:15.11,  pct_mm:13.86, cap:"4.505M",   bpa:1.29,  dpa:1.00,  rpd:5.81, rpd5:9.84,  perf:17.16},
+  {ticker:"MC",   yticker:"MC.PA",   name:"LVMH Moet Hennessy",      mkt:"EPA",    cur:"EUR", sector:"Cíclico",   sub:"Consumo cíclico",        per:21.56, var:-0.01, price:471.05, med52:545.63, max52:654.70, min52:436.55, mm1000:670.16, pct_mm:-29.71,cap:"271.664M", bpa:21.84, dpa:13.00, rpd:2.76, rpd5:1.71,  perf:17.70},
+  {ticker:"OR",   yticker:"OR.PA",   name:"L\'Oreal SA",             mkt:"EPA",    cur:"EUR", sector:"Defensivo", sub:"Consumo defensivo",      per:31.30, var:0.29,  price:358.20, med52:367.50, max52:408.35, min52:326.65, mm1000:383.02, pct_mm:-6.48, cap:"189.492M", bpa:11.44, dpa:7.20,  rpd:2.01, rpd5:1.49,  perf:24.37},
+  {ticker:"BATS", yticker:"BATS.L",  name:"British American Tobacco", mkt:"LON",   cur:"GBP", sector:"Defensivo", sub:"Consumo defensivo",      per:12.52, var:2.46,  price:44.19,  med52:38.96,  max52:48.77,  min52:29.16,  mm1000:31.33,  pct_mm:41.05, cap:"124.735M", bpa:3.53,  dpa:2.45,  rpd:5.56, rpd5:7.57,  perf:11.45},
+  {ticker:"DGE",  yticker:"DGE.L",   name:"Diageo plc",              mkt:"LON",    cur:"GBP", sector:"Defensivo", sub:"Consumo defensivo",      per:17.05, var:0.04,  price:13.96,  med52:17.83,  max52:22.15,  min52:13.50,  mm1000:27.37,  pct_mm:-49.01,cap:"40.347M",  bpa:0.82,  dpa:0.63,  rpd:4.51, rpd5:2.87,  perf:11.47},
+  {ticker:"RKT",  yticker:"RKT.L",   name:"Reckitt Benckiser",       mkt:"LON",    cur:"GBP", sector:"Defensivo", sub:"Consumo defensivo",      per:10.61, var:0.08,  price:51.88,  med52:55.47,  max52:65.14,  min52:45.79,  mm1000:56.93,  pct_mm:-8.87, cap:"44.417M",  bpa:4.89,  dpa:2.16,  rpd:4.16, rpd5:3.40,  perf:14.04},
+  {ticker:"ULVR", yticker:"ULVR.L",  name:"Unilever plc",            mkt:"LON",    cur:"GBP", sector:"Defensivo", sub:"Consumo defensivo",      per:18.51, var:-0.35, price:41.73,  med52:48.38,  max52:55.42,  min52:41.35,  mm1000:46.02,  pct_mm:-9.34, cap:"119.643M", bpa:2.25,  dpa:1.72,  rpd:4.13, rpd5:3.56,  perf:14.12},
+  {ticker:"AAPL", yticker:"AAPL",    name:"Apple Inc",               mkt:"NASDAQ", cur:"USD", sector:"Sensitivo", sub:"Tecnología",             per:32.38, var:0.11,  price:255.92, med52:228.91, max52:288.61, min52:169.21, mm1000:199.31, pct_mm:28.40, cap:"3.757.197M",bpa:7.90, dpa:1.04,  rpd:0.41, rpd5:0.51,  perf:27.47},
+  {ticker:"AMT",  yticker:"AMT",     name:"American Tower",          mkt:"NYSE",   cur:"USD", sector:"Sensitivo", sub:"Industrial",             per:32.19, var:1.58,  price:173.73, med52:199.71, max52:234.33, min52:165.08, mm1000:203.62, pct_mm:-14.68,cap:"80.973M",  bpa:5.40,  dpa:6.89,  rpd:3.97, rpd5:2.86,  perf:25.06},
+  {ticker:"BLK",  yticker:"BLK",     name:"Blackrock",               mkt:"NYSE",   cur:"USD", sector:"Defensivo", sub:"Servicios financieros",  per:28.01, var:0.96,  price:966.56, med52:996.84, max52:1219.94,min52:773.74, mm1000:845.76, pct_mm:14.28, cap:"150.340M", bpa:34.51, dpa:22.92, rpd:2.37, rpd5:2.33,  perf:15.67},
+  {ticker:"BMY",  yticker:"BMY",     name:"Bristol-Myers Squibb",    mkt:"NYSE",   cur:"USD", sector:"Defensivo", sub:"Salud",                  per:17.23, var:-2.45, price:59.60,  med52:52.71,  max52:62.89,  min52:42.52,  mm1000:57.55,  pct_mm:3.56,  cap:"121.687M", bpa:3.46,  dpa:2.52,  rpd:4.23, rpd5:3.92,  perf:9.71},
+  {ticker:"BX",   yticker:"BX",      name:"Blackstone Inc",          mkt:"NYSE",   cur:"USD", sector:"Cíclico",   sub:"Servicios financieros",  per:29.21, var:-1.12, price:113.05, med52:145.91, max52:190.09, min52:101.73, mm1000:125.16, pct_mm:-9.68, cap:"134.277M", bpa:3.87,  dpa:4.74,  rpd:4.19, rpd5:3.34,  perf:14.46},
+  {ticker:"CSCO", yticker:"CSCO",    name:"Cisco",                   mkt:"NASDAQ", cur:"USD", sector:"Cíclico",   sub:"Tecnología",             per:28.46, var:1.95,  price:79.02,  med52:70.15,  max52:88.19,  min52:52.11,  mm1000:55.77,  pct_mm:41.69, cap:"312.121M", bpa:2.78,  dpa:1.68,  rpd:2.13, rpd5:2.83,  perf:17.51},
+  {ticker:"CVS",  yticker:"CVS",     name:"CVS Health",              mkt:"NYSE",   cur:"USD", sector:"Defensivo", sub:"Salud",                  per:52.83, var:1.38,  price:73.49,  med52:71.75,  max52:85.15,  min52:58.35,  mm1000:73.43,  pct_mm:0.08,  cap:"93.495M",  bpa:1.39,  dpa:2.66,  rpd:3.62, rpd5:3.21,  perf:8.99},
+  {ticker:"GIS",  yticker:"GIS",     name:"General Mills",           mkt:"NYSE",   cur:"USD", sector:"Defensivo", sub:"Consumo defensivo",      per:9.13,  var:0.56,  price:37.42,  med52:49.13,  max52:62.61,  min52:35.64,  mm1000:65.67,  pct_mm:-43.02,cap:"19.970M",  bpa:4.10,  dpa:2.44,  rpd:6.52, rpd5:3.55,  perf:11.37},
+  {ticker:"HSY",  yticker:"HSY",     name:"Hershey Co",              mkt:"NYSE",   cur:"USD", sector:"Defensivo", sub:"Consumo defensivo",      per:47.47, var:1.63,  price:206.19, med52:194.76, max52:239.48, min52:150.04, mm1000:202.17, pct_mm:1.99,  cap:"41.793M",  bpa:4.34,  dpa:5.81,  rpd:2.82, rpd5:2.30,  perf:20.93},
+  {ticker:"HD",   yticker:"HD",      name:"Home Depot Inc",          mkt:"NYSE",   cur:"USD", sector:"Cíclico",   sub:"Consumo cíclico",        per:22.61, var:-2.41, price:321.63, med52:372.71, max52:426.75, min52:318.66, mm1000:344.61, pct_mm:-6.67, cap:"320.347M", bpa:14.23, dpa:9.32,  rpd:2.90, rpd5:2.34,  perf:19.72},
+  {ticker:"JNJ",  yticker:"JNJ",     name:"Johnson & Johnson",       mkt:"NYSE",   cur:"USD", sector:"Defensivo", sub:"Salud",                  per:21.24, var:-0.44, price:243.04, med52:196.61, max52:251.71, min52:141.50, mm1000:168.08, pct_mm:44.59, cap:"585.389M", bpa:11.44, dpa:5.20,  rpd:2.14, rpd5:2.77,  perf:19.33},
+  {ticker:"KO",   yticker:"KO",      name:"Coca-Cola Co",            mkt:"NYSE",   cur:"USD", sector:"Defensivo", sub:"Consumo defensivo",      per:25.25, var:0.84,  price:76.72,  med52:73.68,  max52:82.00,  min52:65.35,  mm1000:64.62,  pct_mm:18.72, cap:"330.214M", bpa:3.04,  dpa:2.06,  rpd:2.69, rpd5:2.90,  perf:22.19},
+  {ticker:"KVUE", yticker:"KVUE",    name:"Kenvue Inc.",             mkt:"NYSE",   cur:"USD", sector:"Defensivo", sub:"Consumo defensivo",      per:22.43, var:-1.38, price:17.14,  med52:19.60,  max52:25.17,  min52:14.02,  mm1000:20.81,  pct_mm:-17.62,cap:"32.853M",  bpa:0.76,  dpa:0.83,  rpd:4.84, rpd5:null, perf:14.16},
+  {ticker:"MMM",  yticker:"MMM",     name:"3M Co",                  mkt:"NYSE",   cur:"USD", sector:"Sensitivo", sub:"Industrial",             per:24.06, var:-0.54, price:144.47, med52:149.70, max52:177.41, min52:121.98, mm1000:117.18, pct_mm:23.28, cap:"75.471M",  bpa:6.00,  dpa:3.12,  rpd:2.16, rpd5:3.91,  perf:15.39},
+  {ticker:"MO",   yticker:"MO",      name:"Altria Group Inc",        mkt:"NYSE",   cur:"USD", sector:"Defensivo", sub:"Consumo defensivo",      per:15.98, var:0.43,  price:65.76,  med52:61.67,  max52:70.51,  min52:52.82,  mm1000:50.40,  pct_mm:30.48, cap:"109.944M", bpa:4.12,  dpa:4.24,  rpd:6.45, rpd5:7.67,  perf:11.32},
+  {ticker:"MSFT", yticker:"MSFT",    name:"Microsoft Corp",          mkt:"NASDAQ", cur:"USD", sector:"Sensitivo", sub:"Tecnología",             per:23.37, var:1.11,  price:373.46, med52:450.12, max52:555.45, min52:344.79, mm1000:378.57, pct_mm:-1.35, cap:"2.773.176M",bpa:15.98,dpa:3.64,  rpd:0.97, rpd5:0.79,  perf:19.82},
+  {ticker:"NESN", yticker:"NESN.SW", name:"Nestlé SA",               mkt:"SWX",    cur:"CHF", sector:"Defensivo", sub:"Consumo defensivo",      per:22.32, var:-0.03, price:78.37,  med52:80.64,  max52:91.38,  min52:69.90,  mm1000:94.11,  pct_mm:-16.73,cap:"254.278M", bpa:3.51,  dpa:3.10,  rpd:3.96, rpd5:3.03,  perf:16.86},
+  {ticker:"O",    yticker:"O",       name:"Realty Income Corp",      mkt:"NYSE",   cur:"USD", sector:"Cíclico",   sub:"Bienes raíces",          per:53.38, var:0.53,  price:62.21,  med52:59.33,  max52:67.94,  min52:50.71,  mm1000:59.02,  pct_mm:5.40,  cap:"58.008M",  bpa:1.17,  dpa:3.23,  rpd:5.20, rpd5:5.00,  perf:35.43},
+  {ticker:"PM",   yticker:"PM",      name:"Philip Morris Intl",      mkt:"NYSE",   cur:"USD", sector:"Defensivo", sub:"Consumo defensivo",      per:21.77, var:0.49,  price:158.10, med52:166.71, max52:191.30, min52:142.11, mm1000:120.71, pct_mm:30.98, cap:"246.404M", bpa:7.26,  dpa:5.88,  rpd:3.72, rpd5:4.65,  perf:17.19},
+  {ticker:"SBUX", yticker:"SBUX",    name:"Starbucks Corporation",   mkt:"NASDAQ", cur:"USD", sector:"Cíclico",   sub:"Consumo cíclico",        per:75.28, var:-0.07, price:90.37,  med52:90.16,  max52:104.82, min52:75.50,  mm1000:92.80,  pct_mm:-2.62, cap:"102.959M", bpa:1.20,  dpa:2.48,  rpd:2.74, rpd5:2.26,  perf:30.60},
+  {ticker:"SPG",  yticker:"SPG",     name:"Simon Property Group",    mkt:"NYSE",   cur:"USD", sector:"Cíclico",   sub:"Bienes raíces",          per:13.32, var:0.31,  price:188.67, med52:170.73, max52:205.12, min52:136.34, mm1000:144.85, pct_mm:30.25, cap:"61.309M",  bpa:14.17, dpa:8.65,  rpd:4.58, rpd5:5.11,  perf:27.29},
+  {ticker:"TROW", yticker:"TROW",    name:"T. Rowe Price Group",     mkt:"NASDAQ", cur:"USD", sector:"Cíclico",   sub:"Servicios financieros",  per:9.75,  var:0.33,  price:90.17,  med52:98.04,  max52:118.22, min52:77.85,  mm1000:108.37, pct_mm:-16.79,cap:"19.622M",  bpa:9.24,  dpa:5.20,  rpd:5.77, rpd5:4.06,  perf:8.92},
+  {ticker:"TXN",  yticker:"TXN",     name:"Texas Instruments",       mkt:"NASDAQ", cur:"USD", sector:"Sensitivo", sub:"Tecnología",             per:35.78, var:-0.73, price:194.87, med52:185.64, max52:231.32, min52:139.95, mm1000:179.23, pct_mm:8.72,  cap:"177.422M", bpa:5.45,  dpa:5.68,  rpd:2.91, rpd5:2.72,  perf:24.64},
+  {ticker:"WSO",  yticker:"WSO",     name:"Watsco Inc",              mkt:"NYSE",   cur:"USD", sector:"Sensitivo", sub:"Industrial",             per:30.24, var:-1.49, price:370.31, med52:420.53, max52:518.00, min52:323.05, mm1000:389.71, pct_mm:-4.98, cap:"14.985M",  bpa:12.25, dpa:13.20, rpd:3.56, rpd5:2.67,  perf:26.12},
 ];
 
-let sortKey = "ticker", sortAsc = true, activeRow = null;
+// ─── CONFIGURACIÓN ──────────────────────────────────────────────────────────
+const REFRESH_MINS = 3;
+const REFRESH_MS   = REFRESH_MINS * 60 * 1000;
+const FIELDS = "regularMarketPrice,regularMarketChangePercent,trailingPE,forwardPE,trailingAnnualDividendYield,trailingAnnualDividendRate,fiftyTwoWeekHigh,fiftyTwoWeekLow,epsTrailingTwelveMonths,marketCap";
 
-function fmt(n, dec=2){ return n==null?"—":n.toFixed(dec); }
-function fmtP(n, dec=2){ return n==null?"—":n.toFixed(dec)+"%"; }
+// ─── FETCH CON PROXIES ───────────────────────────────────────────────────────
+async function fetchQuotes() {
+  const symbols = stocks.map(s => s.yticker).join(",");
+  const yahooUrl = `https://query1.finance.yahoo.com/v7/finance/quote?symbols=${symbols}&fields=${FIELDS}&lang=en&region=US`;
 
-function rpdCls(v){ return v>=5?"rpd-high":v>=3?"rpd-mid":"rpd-low"; }
-function perCls(v){ return v<15?"per-low":v>35?"per-high":"per-mid"; }
-function mmCls(v){ return v<0?"mm-bajo":v>0?"mm-sobre":"mm-neutral"; }
-// pct_mm: negative = price below MM = discount (green), positive = price above MM = red
-function mmPctCls(v){ return v<=0?"mm-bajo":"mm-sobre"; }
+  const attempts = [
+    { url: yahooUrl,                                                        parse: r => r },
+    { url: `https://corsproxy.io/?${encodeURIComponent(yahooUrl)}`,         parse: r => r },
+    { url: `https://api.allorigins.win/get?url=${encodeURIComponent(yahooUrl)}`, parse: r => JSON.parse(r.contents) },
+    { url: `https://query2.finance.yahoo.com/v7/finance/quote?symbols=${symbols}&fields=${FIELDS}`, parse: r => r },
+  ];
 
-function rangePos(price, mn, mx){ if(mx===mn)return 50; return Math.max(0,Math.min(100,((price-mn)/(mx-mn))*100)); }
+  for (const attempt of attempts) {
+    try {
+      const res = await fetch(attempt.url, { signal: AbortSignal.timeout(8000) });
+      if (!res.ok) continue;
+      const raw  = await res.json();
+      const data = attempt.parse(raw);
+      const result = data?.quoteResponse?.result;
+      if (result && result.length > 0) return result;
+    } catch(e) { /* siguiente proxy */ }
+  }
+  return null;
+}
 
-function buildDetail(s){
+function formatCap(n) {
+  if (!n) return "—";
+  if (n >= 1e12) return (n/1e12).toFixed(3).replace(".",",") + "B";
+  if (n >= 1e9)  return (n/1e9).toFixed(3).replace(".",",")  + "M";
+  return (n/1e6).toFixed(1) + "K";
+}
+
+function applyQuotes(quotes) {
+  let updated = 0;
+  quotes.forEach(q => {
+    const s = stocks.find(s => s.yticker === q.symbol || s.ticker === q.symbol);
+    if (!s) return;
+    if (q.regularMarketPrice            != null) s.price  = q.regularMarketPrice;
+    if (q.regularMarketChangePercent    != null) s.var    = q.regularMarketChangePercent;
+    if (q.trailingPE                    != null) s.per    = q.trailingPE;
+    if (q.forwardPE                     != null) s.perf   = q.forwardPE;
+    if (q.trailingAnnualDividendYield   != null) s.rpd    = q.trailingAnnualDividendYield * 100;
+    if (q.trailingAnnualDividendRate    != null) s.dpa    = q.trailingAnnualDividendRate;
+    if (q.epsTrailingTwelveMonths       != null) s.bpa    = q.epsTrailingTwelveMonths;
+    if (q.fiftyTwoWeekHigh              != null) s.max52  = q.fiftyTwoWeekHigh;
+    if (q.fiftyTwoWeekLow               != null) s.min52  = q.fiftyTwoWeekLow;
+    if (q.marketCap                     != null) s.cap    = formatCap(q.marketCap);
+    // Recalcular %MM1000 con precio actualizado
+    if (s.mm1000 && s.price) s.pct_mm = ((s.price - s.mm1000) / s.mm1000) * 100;
+    updated++;
+  });
+  return updated;
+}
+
+// ─── ESTADO ─────────────────────────────────────────────────────────────────
+let isLive = false;
+let lastUpdate = null;
+let refreshTimer = null;
+let sortKey = "ticker", sortAsc = true;
+
+function setStatus(state, text) {
+  const dot  = document.getElementById("statusDot");
+  const span = document.getElementById("statusText");
+  dot.className = "status-dot " + state;
+  span.textContent = text;
+}
+
+function updateLiveTag() {
+  const tag = document.getElementById("liveTag");
+  tag.innerHTML = isLive
+    ? `<span class="live-tag">🟢 EN VIVO · actualiza cada ${REFRESH_MINS} min</span>`
+    : `<span class="static-tag">📋 Datos estáticos</span>`;
+}
+
+async function doRefresh() {
+  setStatus("loading", "Actualizando...");
+  document.getElementById("refreshBtn").disabled = true;
+  const quotes = await fetchQuotes();
+  if (quotes) {
+    const n = applyQuotes(quotes);
+    isLive = true;
+    lastUpdate = new Date();
+    setStatus("ok", `Actualizado · ${lastUpdate.toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit'})} (${n} acciones)`);
+  } else {
+    setStatus("error", "Error al obtener datos · usando datos estáticos");
+  }
+  updateLiveTag();
+  render();
+  document.getElementById("refreshBtn").disabled = false;
+}
+
+function manualRefresh() {
+  clearInterval(refreshTimer);
+  doRefresh().then(() => {
+    refreshTimer = setInterval(doRefresh, REFRESH_MS);
+  });
+}
+
+// ─── HELPERS UI ─────────────────────────────────────────────────────────────
+const fmt  = (n,d=2) => n==null ? "—" : n.toFixed(d);
+const fmtP = (n,d=2) => n==null ? "—" : n.toFixed(d)+"%";
+const fmtN = (n,d=2) => n==null ? "—" : n.toLocaleString("es-ES",{minimumFractionDigits:d,maximumFractionDigits:d});
+const rpdCls  = v => v>=5?"rpd-high":v>=3?"rpd-mid":"rpd-low";
+const perCls  = v => v<15?"per-low":v>35?"per-high":"per-mid";
+const mmPctCls= v => v<=0?"mm-bajo":"mm-sobre";
+const rangePos= (p,mn,mx) => mx===mn?50:Math.max(0,Math.min(100,((p-mn)/(mx-mn))*100));
+
+function buildDetail(s) {
   const pos = rangePos(s.price, s.min52, s.max52);
   return `<div class="detail-inner">
-    <div class="detail-section">
-      <h3>💰 Precio y mercado</h3>
+    <div class="detail-section"><h3>💰 Precio y mercado</h3>
       <div class="detail-grid">
-        <div class="detail-item"><div class="dl">Precio</div><div class="dv">${s.price.toLocaleString('es-ES',{minimumFractionDigits:2})}</div></div>
-        <div class="detail-item"><div class="dl">Var. diaria</div><div class="dv ${s.var>=0?'var-pos':'var-neg'}">${s.var>=0?'+':''}${fmt(s.var,2)}%</div></div>
-        <div class="detail-item"><div class="dl">Mercado</div><div class="dv">${s.mkt}</div></div>
-        <div class="detail-item"><div class="dl">Divisa</div><div class="dv">${s.cur}</div></div>
-        <div class="detail-item"><div class="dl">Capitaliz.</div><div class="dv">${s.cap}</div></div>
-        <div class="detail-item"><div class="dl">Sector</div><div class="dv">${s.sub}</div></div>
+        <div><div class="dl">Precio</div><div class="dv">${fmtN(s.price)}</div></div>
+        <div><div class="dl">Var. diaria</div><div class="dv ${s.var>=0?'var-pos':'var-neg'}">${s.var>=0?'+':''}${fmt(s.var)}%</div></div>
+        <div><div class="dl">Mercado</div><div class="dv">${s.mkt}</div></div>
+        <div><div class="dl">Divisa</div><div class="dv">${s.cur}</div></div>
+        <div><div class="dl">Capitaliz.</div><div class="dv">${s.cap}</div></div>
+        <div><div class="dl">Subsector</div><div class="dv">${s.sub}</div></div>
       </div>
       <div class="progress-wrap">
-        <div class="progress-label"><span>Mín52: ${s.min52.toLocaleString('es-ES',{minimumFractionDigits:2})}</span><span>Rango 52 sem.</span><span>Máx52: ${s.max52.toLocaleString('es-ES',{minimumFractionDigits:2})}</span></div>
+        <div class="progress-label"><span>Mín: ${fmtN(s.min52)}</span><span>Rango 52 sem.</span><span>Máx: ${fmtN(s.max52)}</span></div>
         <div class="progress-bar"><div class="progress-fill" style="width:${pos}%"></div><div class="progress-dot" style="left:${pos}%"></div></div>
       </div>
     </div>
-    <div class="detail-section">
-      <h3>📈 Medias Móviles</h3>
+    <div class="detail-section"><h3>📈 Medias Móviles</h3>
       <div class="detail-grid">
-        <div class="detail-item"><div class="dl">MM1000</div><div class="dv">${s.mm1000.toLocaleString('es-ES',{minimumFractionDigits:2})}</div></div>
-        <div class="detail-item"><div class="dl">%MM1000</div><div class="dv ${mmPctCls(s.pct_mm)}">${s.pct_mm>=0?'+':''}${fmt(s.pct_mm,2)}%</div></div>
-        <div class="detail-item"><div class="dl">Med.52sem</div><div class="dv">${s.med52.toLocaleString('es-ES',{minimumFractionDigits:2})}</div></div>
-        <div class="detail-item"><div class="dl">Vs Med.52</div><div class="dv ${s.price>=s.med52?'mm-sobre':'mm-bajo'}">${s.price>=s.med52?'Sobre':'Bajo'}</div></div>
+        <div><div class="dl">MM1000</div><div class="dv">${fmtN(s.mm1000)}</div></div>
+        <div><div class="dl">%MM1000</div><div class="dv ${mmPctCls(s.pct_mm)}">${s.pct_mm>=0?'+':''}${fmt(s.pct_mm)}%</div></div>
+        <div><div class="dl">Med.52sem</div><div class="dv">${fmtN(s.med52)}</div></div>
+        <div><div class="dl">Vs Med.52</div><div class="dv ${s.price>=s.med52?'mm-sobre':'mm-bajo'}">${s.price>=s.med52?'▲ Sobre':'▼ Bajo'}</div></div>
       </div>
     </div>
-    <div class="detail-section">
-      <h3>📊 Valoración y dividendo</h3>
+    <div class="detail-section"><h3>📊 Valoración y dividendo</h3>
       <div class="detail-grid">
-        <div class="detail-item"><div class="dl">PER</div><div class="dv ${perCls(s.per)}">${fmt(s.per,2)}</div></div>
-        <div class="detail-item"><div class="dl">PER futuro</div><div class="dv">${fmt(s.perf,2)}</div></div>
-        <div class="detail-item"><div class="dl">BPA</div><div class="dv">${fmt(s.bpa,2)}</div></div>
-        <div class="detail-item"><div class="dl">DPA</div><div class="dv">${fmt(s.dpa,2)}</div></div>
-        <div class="detail-item"><div class="dl">RPD%</div><div class="dv ${rpdCls(s.rpd)}">${fmtP(s.rpd,2)}</div></div>
-        <div class="detail-item"><div class="dl">5Y RPD%</div><div class="dv ${rpdCls(s.rpd5)}">${s.rpd5!=null?fmtP(s.rpd5,2):'—'}</div></div>
+        <div><div class="dl">PER</div><div class="dv ${perCls(s.per)}">${fmt(s.per)}</div></div>
+        <div><div class="dl">PER futuro</div><div class="dv">${fmt(s.perf)}</div></div>
+        <div><div class="dl">BPA</div><div class="dv">${fmt(s.bpa)}</div></div>
+        <div><div class="dl">DPA</div><div class="dv">${fmt(s.dpa)}</div></div>
+        <div><div class="dl">RPD%</div><div class="dv ${rpdCls(s.rpd)}">${fmtP(s.rpd)}</div></div>
+        <div><div class="dl">5Y RPD%</div><div class="dv ${rpdCls(s.rpd5)}">${s.rpd5!=null?fmtP(s.rpd5):'—'}</div></div>
       </div>
     </div>
   </div>`;
 }
 
-function buildRows(arr){
+function buildRows(arr) {
   const tbody = document.getElementById("tbody");
   tbody.innerHTML = "";
-  if(!arr.length){ tbody.innerHTML='<tr><td colspan="15" class="no-results">No se encontraron acciones</td></tr>'; return; }
-  arr.forEach((s,i)=>{
+  if (!arr.length) { tbody.innerHTML='<tr><td colspan="15" class="no-results">No se encontraron acciones</td></tr>'; return; }
+  arr.forEach(s => {
     const tr = document.createElement("tr");
-    tr.dataset.idx = stocks.indexOf(s);
     tr.innerHTML = `
       <td class="ticker-cell">${s.ticker}</td>
       <td class="empresa-cell">${s.name}</td>
       <td><span class="mkt-badge">${s.mkt}</span></td>
       <td><span class="div-badge">${s.cur}</span></td>
       <td><span class="sector-badge sector-${s.sector}">${s.sector}</span></td>
-      <td>${s.price.toLocaleString('es-ES',{minimumFractionDigits:2})}</td>
-      <td class="${s.var>=0?'var-pos':'var-neg'}">${s.var>=0?'+':''}${fmt(s.var,2)}%</td>
-      <td class="${perCls(s.per)}">${fmt(s.per,2)}</td>
-      <td class="${rpdCls(s.rpd)}">${fmtP(s.rpd,2)}</td>
-      <td class="${mmPctCls(s.pct_mm)}">${s.mm1000.toLocaleString('es-ES',{minimumFractionDigits:2})}</td>
-      <td class="${mmPctCls(s.pct_mm)}">${s.pct_mm>=0?'+':''}${fmt(s.pct_mm,2)}%</td>
-      <td>${s.max52.toLocaleString('es-ES',{minimumFractionDigits:2})}</td>
-      <td>${s.min52.toLocaleString('es-ES',{minimumFractionDigits:2})}</td>
-      <td>${fmt(s.perf,2)}</td>
-      <td>${fmt(s.dpa,2)}</td>`;
-    tr.addEventListener("click",()=>toggleDetail(tr, s));
+      <td>${fmtN(s.price)}</td>
+      <td class="${s.var>=0?'var-pos':'var-neg'}">${s.var>=0?'+':''}${fmt(s.var)}%</td>
+      <td class="${perCls(s.per)}">${fmt(s.per)}</td>
+      <td class="${rpdCls(s.rpd)}">${fmtP(s.rpd)}</td>
+      <td class="${mmPctCls(s.pct_mm)}">${fmtN(s.mm1000)}</td>
+      <td class="${mmPctCls(s.pct_mm)}">${s.pct_mm>=0?'+':''}${fmt(s.pct_mm)}%</td>
+      <td>${fmtN(s.max52)}</td>
+      <td>${fmtN(s.min52)}</td>
+      <td>${fmt(s.perf)}</td>
+      <td>${fmt(s.dpa)}</td>`;
+    tr.addEventListener("click", () => toggleDetail(tr, s));
     tbody.appendChild(tr);
   });
 }
 
-function toggleDetail(tr, s){
+function toggleDetail(tr, s) {
   const existing = document.querySelector(".detail-row");
-  if(existing){
+  if (existing) {
     const wasThis = existing.previousElementSibling === tr;
-    document.querySelector(".detail-row").remove();
-    document.querySelectorAll("tbody tr").forEach(r=>r.classList.remove("active"));
-    if(wasThis) return;
+    existing.remove();
+    document.querySelectorAll("tbody tr").forEach(r => r.classList.remove("active"));
+    if (wasThis) return;
   }
   tr.classList.add("active");
   const dr = document.createElement("tr");
-  dr.className="detail-row";
-  dr.innerHTML=`<td colspan="15">${buildDetail(s)}</td>`;
+  dr.className = "detail-row";
+  dr.innerHTML = `<td colspan="15">${buildDetail(s)}</td>`;
   tr.after(dr);
 }
 
-function getFiltered(){
+function getFiltered() {
   const q   = document.getElementById("search").value.toLowerCase();
   const sec = document.getElementById("fSector").value;
   const mkt = document.getElementById("fMkt").value;
   const cur = document.getElementById("fCur").value;
-  return stocks.filter(s=>{
-    if(sec && s.sector!==sec) return false;
-    if(mkt && s.mkt!==mkt)   return false;
-    if(cur && s.cur!==cur)   return false;
-    if(q && !s.ticker.toLowerCase().includes(q) && !s.name.toLowerCase().includes(q)) return false;
+  return stocks.filter(s => {
+    if (sec && s.sector !== sec) return false;
+    if (mkt && s.mkt    !== mkt) return false;
+    if (cur && s.cur    !== cur) return false;
+    if (q && !s.ticker.toLowerCase().includes(q) && !s.name.toLowerCase().includes(q)) return false;
     return true;
   });
 }
 
-function getSorted(arr){
-  return [...arr].sort((a,b)=>{
-    let va=a[sortKey], vb=b[sortKey];
-    if(typeof va==="string") return sortAsc?va.localeCompare(vb):vb.localeCompare(va);
-    va=va||0; vb=vb||0;
-    return sortAsc?va-vb:vb-va;
+function getSorted(arr) {
+  return [...arr].sort((a, b) => {
+    let va = a[sortKey], vb = b[sortKey];
+    if (typeof va === "string") return sortAsc ? va.localeCompare(vb) : vb.localeCompare(va);
+    va = va || 0; vb = vb || 0;
+    return sortAsc ? va - vb : vb - va;
   });
 }
 
-function updateStats(arr){
+function updateStats(arr) {
   document.getElementById("st-total").textContent = arr.length;
-  document.getElementById("st-up").textContent    = arr.filter(s=>s.var>0).length;
-  document.getElementById("st-down").textContent  = arr.filter(s=>s.var<0).length;
-  const avgRpd = arr.reduce((a,s)=>a+s.rpd,0)/arr.length;
-  document.getElementById("st-rpd").textContent   = avgRpd.toFixed(2)+"%";
-  document.getElementById("st-mm").textContent    = arr.filter(s=>s.pct_mm<=0).length;
+  document.getElementById("st-up").textContent    = arr.filter(s => s.var > 0).length;
+  document.getElementById("st-down").textContent  = arr.filter(s => s.var < 0).length;
+  const avg = arr.reduce((a, s) => a + s.rpd, 0) / arr.length;
+  document.getElementById("st-rpd").textContent   = avg.toFixed(2) + "%";
+  document.getElementById("st-mm").textContent    = arr.filter(s => s.pct_mm <= 0).length;
 }
 
-function render(){
+function render() {
   const filtered = getFiltered();
-  const sorted   = getSorted(filtered);
-  buildRows(sorted);
+  buildRows(getSorted(filtered));
   updateStats(filtered);
 }
 
-// Sorting
-document.querySelectorAll("thead th[data-sort]").forEach(th=>{
-  th.addEventListener("click",()=>{
+// ─── EVENTOS ─────────────────────────────────────────────────────────────────
+document.querySelectorAll("thead th[data-sort]").forEach(th => {
+  th.addEventListener("click", () => {
     const k = th.dataset.sort;
-    if(sortKey===k) sortAsc=!sortAsc; else { sortKey=k; sortAsc=true; }
-    document.querySelectorAll("thead th").forEach(h=>h.classList.remove("sorted"));
+    if (sortKey === k) sortAsc = !sortAsc; else { sortKey = k; sortAsc = true; }
+    document.querySelectorAll("thead th").forEach(h => h.classList.remove("sorted"));
     th.classList.add("sorted");
-    th.textContent = th.textContent.replace(/[↑↓↕]/g,"") + (sortAsc?" ↑":" ↓");
+    th.textContent = th.textContent.replace(/[↑↓↕]/g,"") + (sortAsc ? " ↑" : " ↓");
     render();
   });
 });
-
-["search","fSector","fMkt","fCur"].forEach(id=>
+["search","fSector","fMkt","fCur"].forEach(id =>
   document.getElementById(id).addEventListener("input", render)
 );
 
-render();
+// ─── INICIO ──────────────────────────────────────────────────────────────────
+setStatus("", "Cargando datos...");
+updateLiveTag();
+render();  // mostrar datos estáticos inmediatamente
+
+doRefresh().then(() => {
+  refreshTimer = setInterval(doRefresh, REFRESH_MS);
+});
 </script>
 </body>
 </html>

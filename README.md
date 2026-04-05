@@ -1,40 +1,31 @@
 # 📊 Cartas del Dividendo
 
-Web de seguimiento de acciones de dividendo con datos actualizados manualmente.
+Web de seguimiento de acciones de dividendo con **datos en tiempo real** via Yahoo Finance.
 
-## Características
+## ¿Cómo funciona?
 
-- Tabla interactiva con 33 acciones (Europa + EEUU)
-- Filtros por sector, mercado y divisa
-- Ordenación por cualquier columna
-- Panel de detalle al clicar una fila (precio, medias móviles, valoración)
-- Colores semáforo para RPD, PER y distancia a MM1000
-- Compatible con GitHub Pages
+- Al cargar la página muestra los datos estáticos de base inmediatamente
+- A continuación consulta la API de Yahoo Finance para obtener precios en vivo
+- Se actualiza automáticamente **cada 3 minutos**
+- Botón 🔄 para actualizar manualmente en cualquier momento
 
-## Columnas
+## Datos en tiempo real
 
-| Campo | Descripción |
-|-------|-------------|
-| Precio | Precio de cierre |
-| Var.% | Variación diaria |
-| PER | Price to Earnings Ratio |
-| RPD% | Rentabilidad por dividendo |
-| MM1000 | Media móvil 1000 sesiones |
-| %MM1000 | % del precio respecto a la MM1000 |
-| Máx52 / Mín52 | Rango de 52 semanas |
-| PERfut | PER estimado futuro |
-| DPA | Dividendo por acción |
+| Campo | Fuente |
+|-------|--------|
+| Precio | Yahoo Finance (live) |
+| Var.% diaria | Yahoo Finance (live) |
+| PER / PERfut | Yahoo Finance (live) |
+| RPD% / DPA | Yahoo Finance (live) |
+| Máx52 / Mín52 | Yahoo Finance (live) |
+| MM1000 | Estático (actualizar manualmente) |
+| %MM1000 | Calculado con precio live y MM1000 estática |
 
-## Uso en GitHub Pages
+## GitHub Pages
 
-1. Sube el repositorio a GitHub
-2. Ve a **Settings → Pages**
-3. En *Source* selecciona la rama `main` y carpeta `/root`
-4. Tu web estará disponible en `https://<usuario>.github.io/<repo>/`
+1. Settings → Pages → Source: `main` / `/(root)`
+2. URL: `https://<usuario>.github.io/<repo>/`
 
-## Actualización de datos
+## Actualizar MM1000
 
-Edita el array `stocks` en `index.html` con los nuevos valores.
-
----
-*Datos actualizados manualmente · Abril 2026*
+Edita el valor `mm1000` de cada acción en el array `stocks` dentro de `index.html`.

@@ -106,6 +106,30 @@ td:nth-child(-n+5){text-align:left}
 
 .no-results{text-align:center;padding:40px;color:#6b7280}
 footer{text-align:center;color:#374151;font-size:0.7rem;padding:16px}
+
+/* ── MODAL AÑADIR EMPRESA ────────────────────────────── */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:1000;align-items:center;justify-content:center}
+.modal-overlay.open{display:flex}
+.modal{background:#1a1d27;border:1px solid #374151;border-radius:14px;padding:24px;width:min(96vw,620px);max-height:90vh;overflow-y:auto}
+.modal h2{color:#60a5fa;font-size:1rem;font-weight:700;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center}
+.modal h2 button{background:none;border:none;color:#6b7280;cursor:pointer;font-size:1.2rem;line-height:1}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.form-grid .full{grid-column:1/-1}
+.form-group label{display:block;font-size:0.68rem;color:#9ca3af;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+.form-group input,.form-group select{width:100%;background:#0f1117;color:#e2e8f0;border:1px solid #374151;border-radius:7px;padding:7px 10px;font-size:0.83rem;outline:none}
+.form-group input:focus,.form-group select:focus{border-color:#60a5fa}
+.form-hint{font-size:0.7rem;color:#6b7280;margin-top:3px}
+.modal-actions{display:flex;gap:8px;margin-top:16px;justify-content:flex-end}
+.btn-primary{background:#2563eb;color:#fff;border:none;border-radius:7px;padding:8px 18px;font-size:0.83rem;cursor:pointer;font-weight:600}
+.btn-primary:hover{background:#1d4ed8}
+.btn-secondary{background:#1f2937;color:#9ca3af;border:1px solid #374151;border-radius:7px;padding:8px 14px;font-size:0.83rem;cursor:pointer}
+.btn-delete{background:none;border:none;color:#ef4444;cursor:pointer;font-size:0.78rem;padding:2px 6px;border-radius:4px}
+.btn-delete:hover{background:rgba(239,68,68,.1)}
+.custom-badge{font-size:0.6rem;background:rgba(96,165,250,.15);color:#60a5fa;border:1px solid rgba(96,165,250,.3);border-radius:3px;padding:0 4px;margin-left:4px;vertical-align:middle}
+.custom-stocks-list{max-height:120px;overflow-y:auto;margin-top:8px}
+.custom-item{display:flex;justify-content:space-between;align-items:center;padding:5px 8px;background:#0f1117;border-radius:5px;margin-bottom:4px;font-size:0.78rem;color:#9ca3af}
+.section-sep{grid-column:1/-1;border:none;border-top:1px solid #1f2937;margin:4px 0}
+
 </style>
 </head>
 <body>
@@ -145,6 +169,7 @@ footer{text-align:center;color:#374151;font-size:0.7rem;padding:16px}
   <select id="fSector" onchange="renderTable()"><option value="">Todos los sectores</option><option>Defensivo</option><option>Cíclico</option><option>Sensitivo</option></select>
   <select id="fMkt" onchange="renderTable()"><option value="">Todos los mercados</option><option>ETR</option><option>EPA</option><option>BME</option><option>LON</option><option>NYSE</option><option>NASDAQ</option><option>SWX</option></select>
   <select id="fCur" onchange="renderTable()"><option value="">Todas las divisas</option><option>EUR</option><option>USD</option><option>GBP</option><option>CHF</option></select>
+  <button class="btn-primary" onclick="openModal()" style="margin-left:auto">➕ Añadir empresa</button>
 </div>
 
 <div class="hint">
@@ -308,54 +333,123 @@ function initStocks() {
 }
 let stocks = initStocks();
 
-// ─── FETCH FMP ───────────────────────────────────────────────────────────────
+// ─── FETCH (Yahoo Finance + FMP fallback) ────────────────────────────────────
+const YF_FIELDS = "regularMarketPrice,regularMarketChangePercent,trailingPE,forwardPE,trailingAnnualDividendYield,trailingAnnualDividendRate,fiftyTwoWeekHigh,fiftyTwoWeekLow,epsTrailingTwelveMonths,marketCap,twoHundredDayAverage";
+
+async function tryUrl(url, isAllOrigins) {
+  const res = await fetch(url, {signal: AbortSignal.timeout(9000)});
+  if (!res.ok) throw new Error("HTTP " + res.status);
+  const raw = await res.json();
+  return isAllOrigins ? JSON.parse(raw.contents) : raw;
+}
+
+async function fetchYahooBatch(tickers) {
+  const sym = tickers.join(",");
+  const base1 = `https://query1.finance.yahoo.com/v7/finance/quote?symbols=${sym}&fields=${YF_FIELDS}`;
+  const base2 = base1.replace("query1","query2");
+  const attempts = [
+    [base1,                                                               false],
+    [base2,                                                               false],
+    [`https://corsproxy.io/?${encodeURIComponent(base1)}`,               false],
+    [`https://api.allorigins.win/get?url=${encodeURIComponent(base1)}`,  true ],
+    [`https://corsproxy.io/?${encodeURIComponent(base2)}`,               false],
+    [`https://api.allorigins.win/get?url=${encodeURIComponent(base2)}`,  true ],
+  ];
+  for (const [url, isAO] of attempts) {
+    try {
+      const data = await tryUrl(url, isAO);
+      const result = data?.quoteResponse?.result;
+      if (result?.length > 0) return result;
+    } catch(e) { /* probar siguiente */ }
+  }
+  return [];
+}
+
+async function fetchFmpBatch(tickers) {
+  const sym = tickers.join(",");
+  for (const ep of ["quote","quotes"]) {
+    try {
+      const res = await fetch(`${BASE}${ep}/${sym}?apikey=${APIKEY}`, {signal: AbortSignal.timeout(9000)});
+      if (!res.ok) continue;
+      const data = await res.json();
+      if (Array.isArray(data) && data.length > 0) return data;
+    } catch(e) { /* probar siguiente */ }
+  }
+  return [];
+}
+
 async function fetchAll() {
   const btn = document.getElementById("refreshBtn");
   btn.disabled = true;
   btn.innerHTML = '<span class="spin">⟳</span> Actualizando...';
   setStatus("loading", "Actualizando...");
 
-  const syms = [...new Set(STOCKSBASE.map(s => s.fmp))].join(",");
-  try {
-    const res = await fetch(`${BASE}quotes/${syms}?apikey=${APIKEY}`);
-    if (!res.ok) throw new Error("HTTP " + res.status);
-    const data = await res.json();
-    if (!Array.isArray(data) || data.length === 0) throw new Error("Sin datos");
+  // Dividir en lotes para evitar URLs demasiado largas
+  const all   = stocks.map(s => s.fmp);  // incluye custom
+  const batch1 = all.slice(0, 17);
+  const batch2 = all.slice(17);
 
+  try {
+    // 1. Intentar Yahoo Finance en paralelo
+    let [r1, r2] = await Promise.all([
+      fetchYahooBatch(batch1),
+      fetchYahooBatch(batch2),
+    ]);
+    let results = [...r1, ...r2];
+
+    // 2. Si Yahoo falla, intentar FMP
+    if (results.length < 5) {
+      const [f1, f2] = await Promise.all([
+        fetchFmpBatch(batch1),
+        fetchFmpBatch(batch2),
+      ]);
+      results = [...f1, ...f2];
+    }
+
+    if (results.length === 0) throw new Error("Sin datos de ninguna fuente");
+
+    // Aplicar datos a stocks
     stocks = STOCKSBASE.map(s => {
       const r    = DATOSREF[s.fmp] || {};
-      const live = data.find(q => q.symbol === s.fmp);
-      const precio      = live?.price           ?? PRECIOS_REF[s.fmp] ?? null;
-      const mm200       = live?.priceAvg200      ?? r.mm200 ?? null;
+      // Yahoo Finance devuelve symbol igual al yticker (que es igual a fmp)
+      const live = results.find(q => q.symbol === s.fmp);
+      const precio      = live?.regularMarketPrice    ?? live?.price           ?? PRECIOS_REF[s.fmp] ?? null;
+      const mm200       = live?.twoHundredDayAverage  ?? live?.priceAvg200     ?? r.mm200 ?? null;
       const mm1000      = r.mm1000 ?? null;
-      const max52       = live?.yearHigh         ?? null;
-      const min52       = live?.yearLow          ?? null;
-      const per         = live?.pe               ?? r.per   ?? null;
-      const capitalizacion = live?.marketCap ? formatCap(live.marketCap) : null;
-      return { ...s, ...r, precio,
-        variacionpct: live?.changesPercentage ?? null,
-        per, max52, min52, capitalizacion,
-        mm200, mm1000,
-        descmm200:  calcDesc(precio, mm200),
-        descmm1000: calcDesc(precio, mm1000),
+      const max52       = live?.fiftyTwoWeekHigh      ?? live?.yearHigh        ?? null;
+      const min52       = live?.fiftyTwoWeekLow       ?? live?.yearLow         ?? null;
+      const per         = live?.trailingPE            ?? live?.pe              ?? r.per   ?? null;
+      const perfuturo   = live?.forwardPE             ?? r.perfuturo           ?? null;
+      const rpdpct      = live?.trailingAnnualDividendYield != null
+                          ? live.trailingAnnualDividendYield * 100
+                          : r.rpdpct ?? null;
+      const dpa         = live?.trailingAnnualDividendRate ?? r.dpa ?? null;
+      const bpa         = live?.epsTrailingTwelveMonths   ?? null;
+      const marketCap   = live?.marketCap ?? null;
+      const variacionpct= live?.regularMarketChangePercent ?? live?.changesPercentage ?? null;
+      return { ...s, ...r, precio, variacionpct, per, perfuturo, rpdpct, dpa, bpa,
+               max52, min52, mm200, mm1000,
+               capitalizacion: marketCap ? formatCap(marketCap) : null,
+               descmm200:  calcDesc(precio, mm200),
+               descmm1000: calcDesc(precio, mm1000),
       };
     });
 
     document.getElementById("errorBox").style.display = "none";
-    setStatus("ok", "Tiempo real · " + new Date().toLocaleTimeString("es-ES",{hour:"2-digit",minute:"2-digit"}));
+    const src = (r1.length + r2.length) > 5 ? "Yahoo Finance" : "FMP";
+    setStatus("ok", `Tiempo real (${src}) · ` + new Date().toLocaleTimeString("es-ES",{hour:"2-digit",minute:"2-digit"}) + ` · ${results.length} acciones`);
+
   } catch(e) {
-    // Fallback estático
     stocks = STOCKSBASE.map(s => {
       const r = DATOSREF[s.fmp] || {};
       const precio = PRECIOS_REF[s.fmp] || null;
-      return { ...s, ...r, precio, variacionpct:null,
-        max52:null,min52:null,capitalizacion:null,
-        descmm200:calcDesc(precio,r.mm200), descmm1000:calcDesc(precio,r.mm1000) };
+      return { ...s, ...r, precio, variacionpct:null, max52:null, min52:null, capitalizacion:null,
+               descmm200:calcDesc(precio,r.mm200), descmm1000:calcDesc(precio,r.mm1000) };
     });
     const eb = document.getElementById("errorBox");
     eb.style.display = "block";
-    eb.textContent = "⚠️ Error al obtener datos en tiempo real (" + e.message + "). Mostrando datos de referencia abr 2025.";
-    setStatus("error", "Error · datos de referencia");
+    eb.textContent = "⚠️ " + e.message + ". Mostrando datos de referencia abr 2025.";
+    setStatus("error", "Sin conexión · datos estáticos");
   }
 
   renderTable();
@@ -570,10 +664,218 @@ function mostrarDetalle(fmp) {
   document.getElementById("detalle").scrollIntoView({behavior:"smooth",block:"nearest"});
 }
 
+
+// ── EMPRESAS PERSONALIZADAS (localStorage) ───────────────────────────────────
+const LS_KEY = "cartas-custom-stocks";
+
+function loadCustom() {
+  try { return JSON.parse(localStorage.getItem(LS_KEY) || "[]"); }
+  catch(e) { return []; }
+}
+function saveCustom(arr) {
+  localStorage.setItem(LS_KEY, JSON.stringify(arr));
+}
+function getN(id) {
+  const v = parseFloat(document.getElementById(id).value);
+  return isNaN(v) ? null : v;
+}
+
+function openModal() {
+  document.getElementById("modalOverlay").classList.add("open");
+  refreshCustomList();
+}
+function closeModal() {
+  document.getElementById("modalOverlay").classList.remove("open");
+  ["f-ticker","f-fmp","f-nombre","f-subsector","f-mm1000","f-mm200","f-rpdpct","f-dpa","f-per","f-perfuturo"]
+    .forEach(id => document.getElementById(id).value = "");
+}
+
+function refreshCustomList() {
+  const arr = loadCustom();
+  const wrap = document.getElementById("customListWrap");
+  const list = document.getElementById("customList");
+  if (arr.length === 0) { wrap.style.display = "none"; return; }
+  wrap.style.display = "block";
+  list.innerHTML = arr.map((s,i) =>
+    `<div class="custom-item">
+      <span><strong style="color:#60a5fa">${s.ticker}</strong> · ${s.nombre} · ${s.mercado} · ${s.divisa}</span>
+      <button class="btn-delete" onclick="deleteCustom(${i})">✕ Eliminar</button>
+    </div>`
+  ).join("");
+}
+
+function deleteCustom(idx) {
+  const arr = loadCustom();
+  arr.splice(idx, 1);
+  saveCustom(arr);
+  refreshCustomList();
+  rebuildStocks();
+  renderTable();
+}
+
+function saveEmpresa() {
+  const ticker = document.getElementById("f-ticker").value.trim();
+  const fmp    = document.getElementById("f-fmp").value.trim();
+  const nombre = document.getElementById("f-nombre").value.trim();
+  if (!ticker || !fmp || !nombre) {
+    alert("Rellena al menos Ticker, Símbolo API y Nombre.");
+    return;
+  }
+  const nueva = {
+    ticker, fmp, nombre,
+    mercado:   document.getElementById("f-mercado").value,
+    divisa:    document.getElementById("f-divisa").value,
+    sector:    document.getElementById("f-sector").value,
+    subsector: document.getElementById("f-subsector").value || "—",
+    mm1000:    getN("f-mm1000"),
+    mm200:     getN("f-mm200"),
+    rpdpct:    getN("f-rpdpct"),
+    dpa:       getN("f-dpa"),
+    per:       getN("f-per"),
+    perfuturo: getN("f-perfuturo"),
+    custom: true,
+  };
+  const arr = loadCustom();
+  if (arr.find(s => s.fmp === fmp)) { alert("Esa empresa ya está en la lista."); return; }
+  arr.push(nueva);
+  saveCustom(arr);
+  refreshCustomList();
+  rebuildStocks();
+  renderTable();
+  // Lanzar fetch para obtener datos en tiempo real
+  fetchAll();
+}
+
+function rebuildStocks() {
+  const custom = loadCustom();
+  const precio_fallback = {};
+  // Mantener precios actuales si ya tenemos datos
+  stocks.forEach(s => { precio_fallback[s.fmp] = s.precio; });
+
+  stocks = [...STOCKSBASE, ...custom].map(s => {
+    const r = DATOSREF[s.fmp] || {};
+    const mm1000 = s.mm1000 ?? r.mm1000 ?? null;
+    const mm200  = s.mm200  ?? r.mm200  ?? null;
+    const precio = precio_fallback[s.fmp] ?? PRECIOS_REF[s.fmp] ?? null;
+    return {
+      ...s,
+      per:       s.per       ?? r.per       ?? null,
+      perfuturo: s.perfuturo ?? r.perfuturo ?? null,
+      rpdpct:    s.rpdpct    ?? r.rpdpct    ?? null,
+      dpa:       s.dpa       ?? r.dpa       ?? null,
+      mm1000, mm200,
+      precio, variacionpct: null,
+      max52: null, min52: null, capitalizacion: null,
+      descmm200:  calcDesc(precio, mm200),
+      descmm1000: calcDesc(precio, mm1000),
+    };
+  });
+}
+
 // ─── INICIO ──────────────────────────────────────────────────────────────────
+rebuildStocks();   // carga datos base + empresas guardadas en localStorage
 renderTable();
 fetchAll();
 intervalId = setInterval(fetchAll, intervalSeg * 1000);
 </script>
+
+<!-- ── MODAL AÑADIR EMPRESA ──────────────────────────── -->
+<div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <h2>➕ Añadir empresa <button onclick="closeModal()">✕</button></h2>
+
+    <div class="form-grid">
+      <div class="form-group">
+        <label>Ticker (corto) *</label>
+        <input id="f-ticker" placeholder="Ej: AMZN, SAP" oninput="this.value=this.value.toUpperCase()">
+      </div>
+      <div class="form-group">
+        <label>Símbolo API *</label>
+        <input id="f-fmp" placeholder="Ej: AMZN, SAP.DE, RDSB.L" oninput="this.value=this.value.toUpperCase()">
+        <div class="form-hint">US: igual al ticker · Europa: añadir .DE .PA .MC .L .SW</div>
+      </div>
+      <div class="form-group full">
+        <label>Nombre empresa *</label>
+        <input id="f-nombre" placeholder="Ej: Amazon.com Inc">
+      </div>
+      <div class="form-group">
+        <label>Mercado *</label>
+        <select id="f-mercado">
+          <option value="NYSE">NYSE</option>
+          <option value="NASDAQ">NASDAQ</option>
+          <option value="ETR">ETR (Alemania)</option>
+          <option value="EPA">EPA (Francia)</option>
+          <option value="BME">BME (España)</option>
+          <option value="LON">LON (Londres)</option>
+          <option value="SWX">SWX (Suiza)</option>
+          <option value="AMS">AMS (Amsterdam)</option>
+          <option value="MIL">MIL (Italia)</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Divisa *</label>
+        <select id="f-divisa">
+          <option value="USD">USD</option>
+          <option value="EUR">EUR</option>
+          <option value="GBP">GBP</option>
+          <option value="CHF">CHF</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Sector *</label>
+        <select id="f-sector">
+          <option value="Defensivo">Defensivo</option>
+          <option value="Cíclico">Cíclico</option>
+          <option value="Sensitivo">Sensitivo</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Subsector</label>
+        <input id="f-subsector" placeholder="Ej: Consumo defensivo">
+      </div>
+
+      <hr class="section-sep">
+
+      <div class="form-group">
+        <label>MM1000 (estático)</label>
+        <input id="f-mm1000" type="number" step="0.01" placeholder="Ej: 150.00">
+        <div class="form-hint">Media móvil 1000 sesiones</div>
+      </div>
+      <div class="form-group">
+        <label>MM200 (estático)</label>
+        <input id="f-mm200" type="number" step="0.01" placeholder="Ej: 145.00">
+        <div class="form-hint">Se actualizará vía API si está disponible</div>
+      </div>
+      <div class="form-group">
+        <label>RPD% (referencia)</label>
+        <input id="f-rpdpct" type="number" step="0.01" placeholder="Ej: 3.50">
+      </div>
+      <div class="form-group">
+        <label>DPA (referencia)</label>
+        <input id="f-dpa" type="number" step="0.01" placeholder="Ej: 2.40">
+      </div>
+      <div class="form-group">
+        <label>PER (referencia)</label>
+        <input id="f-per" type="number" step="0.1" placeholder="Ej: 18.5">
+      </div>
+      <div class="form-group">
+        <label>PER futuro (referencia)</label>
+        <input id="f-perfuturo" type="number" step="0.1" placeholder="Ej: 14.2">
+      </div>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeModal()">Cancelar</button>
+      <button class="btn-primary" onclick="saveEmpresa()">✓ Añadir empresa</button>
+    </div>
+
+    <!-- Lista de empresas añadidas -->
+    <div id="customListWrap" style="display:none;margin-top:16px">
+      <div style="font-size:0.72rem;color:#6b7280;margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px">Empresas añadidas</div>
+      <div class="custom-stocks-list" id="customList"></div>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
